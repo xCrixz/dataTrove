@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
@@ -48,13 +49,16 @@ fun PantallaCarga(navController: NavController? =null){
 fun Contenido(modifier: Modifier = Modifier){
     Column(modifier = modifier.fillMaxSize(), verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally) {
-        Spacer(modifier = Modifier.size(145.dp))
-        Text(text = "Data", fontSize = 85.sp, style = TextStyle(fontFamily = abrilFamily,
-            fontWeight = FontWeight.Normal))
-        Text(text = "Trove!", fontSize = 85.sp, style = TextStyle(fontFamily = abrilFamily,
-            fontWeight = FontWeight.Normal
-        ))
-        Spacer(modifier = Modifier.size(150.dp))
+        Spacer(modifier = Modifier.height(120.dp))
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Text(
+                text = "  Data \nTrove!", fontSize = 85.sp, style = TextStyle(
+                    fontFamily = abrilFamily,
+                    fontWeight = FontWeight.Normal
+                ), lineHeight = 80.sp
+            )
+        }
+        Spacer(modifier = Modifier.height(140.dp))
         CargaCircular()
     }
 }
@@ -77,7 +81,7 @@ fun CargaCircular(){
 }
 
 
-@Preview
+@Preview(showBackground = true, apiLevel = 34)
 @Composable
 fun PreviewPantallaCarga(){
     PantallaCarga()

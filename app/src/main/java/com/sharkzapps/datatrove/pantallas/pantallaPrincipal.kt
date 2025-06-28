@@ -3,6 +3,7 @@ package com.sharkzapps.datatrove.pantallas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -41,12 +42,10 @@ fun PantallaPrincipal(navController: NavController? = null){
 fun Encabezado(){
     Column(modifier = Modifier
         .fillMaxWidth()
-        .padding(top = 20.dp),
+        .padding(top = 25.dp),
         horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(text = "Data", fontSize = 55.sp, style = TextStyle
-            (fontFamily = abrilFamily, fontWeight = FontWeight.Black))
-        Text(text = "Trove!", fontSize = 55.sp, style = TextStyle
-            (fontFamily = abrilFamily, fontWeight = FontWeight.Black))
+        Text(text = "       Data  ✨\n     Trove!", fontSize = 50.sp, style = TextStyle
+            (fontFamily = abrilFamily, fontWeight = FontWeight.Black), lineHeight = 42.5.sp)
         HorizontalDivider(modifier = Modifier
             .padding(vertical = 2.dp)
             .height(20.dp)
@@ -61,48 +60,72 @@ fun Encabezado(){
 
 @Composable
 fun ZonaScrollable(){
-    LazyColumn(modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp),
+
+
+    LazyColumn(modifier = Modifier
+        .fillMaxWidth()
+        .padding(horizontal = 10.dp),
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
     ) {
-        item { Text(text = "Populares", fontSize = 35.sp, style = TextStyle
-            (fontFamily = garamondFamily, fontWeight = FontWeight.Black))
+        item { Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(text = "Populares ", fontSize = 35.sp, style = TextStyle
+                (fontFamily = garamondFamily, fontWeight = FontWeight.Black))
+            
+            Text(text = "\uD83D\uDE0E", fontSize = 27.5.sp)
+
+        }
+            HorizontalDivider(modifier = Modifier
+                .height(5.dp)
+                .width(230.dp),
+                thickness = 3.5.dp, color = Color.Black)
+            Spacer(modifier = Modifier.size(150.dp))}
+
+        item { Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                text = "Curiosos ", fontSize = 35.sp, style = TextStyle
+                    (fontFamily = garamondFamily, fontWeight = FontWeight.Black)
+            )
+            Text(text = "\uD83E\uDDE0", fontSize = 27.5.sp)
+            }
             HorizontalDivider(modifier = Modifier
                 .height(5.dp)
                 .width(230.dp),
                 thickness = 3.5.dp, color = Color.Black)
 
-            Spacer(modifier = Modifier.size(50.dp))}
+            Spacer(modifier = Modifier.size(150.dp))}
 
-        item { Text(text = "Curiosos", fontSize = 35.sp, style = TextStyle
-            (fontFamily = garamondFamily, fontWeight = FontWeight.Black))
+        item {Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                text = "Ligeros ", fontSize = 35.sp, style = TextStyle
+                    (fontFamily = garamondFamily, fontWeight = FontWeight.Black)
+            )
+            Text(text = "\uD83D\uDE02", fontSize = 27.5.sp)
+            }
+
             HorizontalDivider(modifier = Modifier
                 .height(5.dp)
                 .width(230.dp),
                 thickness = 3.5.dp, color = Color.Black)
 
-            Spacer(modifier = Modifier.size(50.dp))}
+            Spacer(modifier = Modifier.size(150.dp))}
 
-        item { Text(text = "Ligeros", fontSize = 35.sp, style = TextStyle
-            (fontFamily = garamondFamily, fontWeight = FontWeight.Black))
+        item { Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                text = "Otros ", fontSize = 35.sp, style = TextStyle
+                    (fontFamily = garamondFamily, fontWeight = FontWeight.Black)
+            )
+            Text(text = "\uD83D\uDCC2", fontSize = 27.5.sp)
+            }
             HorizontalDivider(modifier = Modifier
                 .height(5.dp)
                 .width(230.dp),
                 thickness = 3.5.dp, color = Color.Black)
-
-            Spacer(modifier = Modifier.size(50.dp))}
-
-        item { Text(text = "Otras categorias", fontSize = 35.sp, style = TextStyle
-            (fontFamily = garamondFamily, fontWeight = FontWeight.Black))
-            HorizontalDivider(modifier = Modifier
-                .height(5.dp)
-                .width(230.dp),
-                thickness = 3.5.dp, color = Color.Black)
-            Spacer(modifier = Modifier.size(50.dp))}
+            Spacer(modifier = Modifier.size(150.dp))}
 
     }
 }
 
-@Preview
+@Preview(showBackground = true, apiLevel = 34)
 @Composable
 fun PreviewPantallaPrincipal() {
     PantallaPrincipal()
