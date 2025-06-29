@@ -39,11 +39,10 @@ fun PantallaCarga(navController: NavController? =null){
         }
     }
 
-
-    Scaffold(modifier = Modifier) {
-        innerPadding -> Contenido(modifier = Modifier.padding(innerPadding))
+        Scaffold(modifier = Modifier.fillMaxSize(), containerColor = Color(0xFFFFFEE5)) {
+                innerPadding -> Contenido(modifier = Modifier.padding(innerPadding))
+        }
     }
-}
 
 @Composable
 fun Contenido(modifier: Modifier = Modifier){
@@ -76,7 +75,7 @@ fun CargaCircular(){
     CircularProgressIndicator(
         progress = {progreso},
         modifier = Modifier.size(70.dp),
-        color = Color.Black
+        color = Color.DarkGray
     )
 }
 

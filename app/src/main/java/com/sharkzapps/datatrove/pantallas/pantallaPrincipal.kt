@@ -55,6 +55,7 @@ fun Encabezado(){
             .height(20.dp)
             .width(200.dp),
             thickness = 5.dp, color = Color.Black)
+        Spacer(modifier = Modifier.height(20.dp))
     }
 }
 
@@ -64,8 +65,8 @@ fun ZonaScrollable(){
 
     LazyColumn(modifier = Modifier
         .fillMaxWidth()
-        .padding(horizontal = 10.dp),
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
+        .padding(horizontal = 8.dp),
+        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp)
     ) {
         item { Row(verticalAlignment = Alignment.CenterVertically) {
             Text(text = "Populares ", fontSize = 35.sp, style = TextStyle
