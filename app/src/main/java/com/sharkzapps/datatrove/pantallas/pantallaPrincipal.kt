@@ -1,10 +1,14 @@
 package com.sharkzapps.datatrove.pantallas
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.absoluteOffset
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -12,17 +16,20 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
 import com.sharkzapps.datatrove.ui.theme.abrilFamily
 import com.sharkzapps.datatrove.ui.theme.garamondFamily
@@ -33,7 +40,6 @@ fun PantallaPrincipal(navController: NavController? = null){
         .fillMaxSize()
         .background(Color(0xFFFFFEE5)) // fondo claro
     ) {
-        Encabezado()
         ZonaScrollable()
     }
 }
@@ -42,7 +48,7 @@ fun PantallaPrincipal(navController: NavController? = null){
 fun Encabezado(){
     Column(modifier = Modifier
         .fillMaxWidth()
-        .padding(top = 25.dp),
+        .padding(top = 35.dp),
         horizontalAlignment = Alignment.CenterHorizontally) {
         Text(text = "       Data  ✨\n     Trove!", fontSize = 50.sp, style = TextStyle
             (fontFamily = abrilFamily, fontWeight = FontWeight.Black), lineHeight = 42.5.sp)
@@ -65,21 +71,45 @@ fun ZonaScrollable(){
 
     LazyColumn(modifier = Modifier
         .fillMaxWidth()
-        .padding(horizontal = 8.dp),
-        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp)
+        .padding(horizontal = 4.dp),
+        contentPadding = PaddingValues(horizontal = 10.dp, vertical = 8.dp)
     ) {
+        item { Encabezado() }
         item { Row(verticalAlignment = Alignment.CenterVertically) {
             Text(text = "Populares ", fontSize = 35.sp, style = TextStyle
                 (fontFamily = garamondFamily, fontWeight = FontWeight.Black))
-            
-            Text(text = "\uD83D\uDE0E", fontSize = 27.5.sp)
-
-        }
+            Text(text = "\uD83D\uDE0E", fontSize = 27.5.sp) }
             HorizontalDivider(modifier = Modifier
                 .height(5.dp)
                 .width(230.dp),
                 thickness = 3.5.dp, color = Color.Black)
-            Spacer(modifier = Modifier.size(150.dp))}
+            Spacer(modifier = Modifier.height(25.dp))
+            }
+
+        item { FlowRow(modifier = Modifier.padding(vertical = 15.dp, horizontal = 6.dp)) {
+            TarjetaCategoria(texto = "Amor", colorFondo = Color(0xFFFF6F61) , emojiTexto = "❤\uFE0F" , emojiSuperior = "\uD83D\uDCCD" )
+            Spacer(modifier = Modifier.width(7.5.dp))
+            TarjetaCategoria(texto = "Tecnología", colorFondo = Color(0xFF42A5F5), emojiTexto = "\uD83E\uDD16", emojiSuperior = "\uD83D\uDCCD" )
+        } }
+
+        item { FlowRow(modifier = Modifier.padding(vertical = 15.dp, horizontal = 6.dp)) {
+            TarjetaCategoria(texto = "Ciencia", colorFondo = Color(0xFF00BCD4) , emojiTexto = "⚗\uFE0F" , emojiSuperior = "\uD83D\uDCCD" )
+            Spacer(modifier = Modifier.width(7.5.dp))
+            TarjetaCategoria(texto = "Historia", colorFondo = Color(0xFFFFB74D), emojiTexto = "\uD83D\uDCDC", emojiSuperior = "\uD83D\uDCCD" )
+        } }
+
+        item { FlowRow(modifier = Modifier.padding(vertical = 15.dp, horizontal = 6.dp)) {
+            TarjetaCategoria(texto = "Animales", colorFondo = Color(0xFF8BC34A) , emojiTexto = "\uD83D\uDC36" , emojiSuperior = "\uD83D\uDCCD" )
+            Spacer(modifier = Modifier.width(7.5.dp))
+            TarjetaCategoria(texto = "Psicología", colorFondo = Color(0xFF9C27B0), emojiTexto = "\uD83E\uDDE0", emojiSuperior = "\uD83D\uDCCD" )
+        } }
+
+        item { FlowRow(modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 15.dp, horizontal = 20.dp), horizontalArrangement = Arrangement.Center) {
+            TarjetaCategoria(texto = "Cultura\nGeneral", colorFondo = Color(0xFF3F51B5) , emojiTexto = "\uD83C\uDF0D" , emojiSuperior = "\uD83D\uDCCD" )
+            Spacer(modifier = Modifier.size(150.dp))
+        } }
 
         item { Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
@@ -94,6 +124,8 @@ fun ZonaScrollable(){
                 thickness = 3.5.dp, color = Color.Black)
 
             Spacer(modifier = Modifier.size(150.dp))}
+
+
 
         item {Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
@@ -125,6 +157,52 @@ fun ZonaScrollable(){
 
     }
 }
+
+@Composable
+fun TarjetaCategoria(
+    texto: String,
+    colorFondo: Color,
+    emojiTexto: String,
+    emojiSuperior: String
+) {
+    Box(
+        modifier = Modifier
+            .padding(8.dp)
+            .width(140.dp)
+            .height(70.dp)
+    ) {
+        // Caja base (tarjeta)
+        Box(
+            modifier = Modifier
+                .clip(RoundedCornerShape(8.dp))
+                .background(colorFondo)
+                .fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = "$texto $emojiTexto",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                fontFamily = garamondFamily,
+                color = Color.Black
+            )
+        }
+
+        // Emoji superior flotando
+        if (emojiSuperior.isNotEmpty()) {
+            Text(
+                text = emojiSuperior,
+                fontSize = 30.sp,
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .absoluteOffset(y = (-25.5).dp) // Lo sube visualmente sobre la tarjeta
+                    .zIndex(1f)
+            )
+        }
+    }
+}
+
+
 
 @Preview(showBackground = true, apiLevel = 34)
 @Composable
