@@ -1,6 +1,8 @@
 package com.sharkzapps.datatrove.pantallas
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -39,10 +42,23 @@ fun PantallaCarga(navController: NavController? =null){
         }
     }
 
-        Scaffold(modifier = Modifier.fillMaxSize(), containerColor = Color(0xFFFFFEE5)) {
-                innerPadding -> Contenido(modifier = Modifier.padding(innerPadding))
+    Scaffold(modifier = Modifier.fillMaxSize(), containerColor = Color.Transparent) { innerPadding ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    brush = Brush.verticalGradient(colors = listOf(
+                        Color(0xFFFFFEE5),
+                        Color(0xFF81D4FA)
+                        )
+                    )
+                )
+                .padding(innerPadding)
+        ) {
+            Contenido()
         }
     }
+}
 
 @Composable
 fun Contenido(modifier: Modifier = Modifier){
