@@ -48,7 +48,7 @@ fun PantallaPrincipal(navController: NavController? = null){
 fun Encabezado(){
     Column(modifier = Modifier
         .fillMaxWidth()
-        .padding(top = 35.dp),
+        .padding(top = 30.dp),
         horizontalAlignment = Alignment.CenterHorizontally) {
         Text(text = "       Data  ✨\n     Trove!", fontSize = 50.sp, style = TextStyle
             (fontFamily = abrilFamily, fontWeight = FontWeight.Black), lineHeight = 42.5.sp)
@@ -75,6 +75,8 @@ fun ZonaScrollable(){
         contentPadding = PaddingValues(horizontal = 10.dp, vertical = 8.dp)
     ) {
         item { Encabezado() }
+
+        // POPULARES
         item { Row(verticalAlignment = Alignment.CenterVertically) {
             Text(text = "Populares ", fontSize = 35.sp, style = TextStyle
                 (fontFamily = garamondFamily, fontWeight = FontWeight.Black))
@@ -83,33 +85,38 @@ fun ZonaScrollable(){
                 .height(5.dp)
                 .width(230.dp),
                 thickness = 3.5.dp, color = Color.Black)
-            Spacer(modifier = Modifier.height(25.dp))
+            Spacer(modifier = Modifier.height(30.dp))
             }
 
         item { FlowRow(modifier = Modifier.padding(vertical = 15.dp, horizontal = 6.dp)) {
-            TarjetaCategoria(texto = "Amor", colorFondo = Color(0xFFFF6F61) , emojiTexto = "❤\uFE0F" , emojiSuperior = "\uD83D\uDCCD" )
+            TarjetaCategoria(texto = "Amor", colorFondo = Color(0xFFFF6B81) , emojiTexto = "❤\uFE0F" , emojiSuperior = "\uD83D\uDCCD" )
             Spacer(modifier = Modifier.width(7.5.dp))
-            TarjetaCategoria(texto = "Tecnología", colorFondo = Color(0xFF42A5F5), emojiTexto = "\uD83E\uDD16", emojiSuperior = "\uD83D\uDCCD" )
+            TarjetaCategoria(texto = "Tecnología", colorFondo = Color(0xFF4D96FF), emojiTexto = "\uD83E\uDD16", emojiSuperior = "\uD83D\uDCCD" )
         } }
 
         item { FlowRow(modifier = Modifier.padding(vertical = 15.dp, horizontal = 6.dp)) {
-            TarjetaCategoria(texto = "Ciencia", colorFondo = Color(0xFF00BCD4) , emojiTexto = "⚗\uFE0F" , emojiSuperior = "\uD83D\uDCCD" )
+            TarjetaCategoria(texto = "Ciencia", colorFondo = Color(0xFF00B4D8) , emojiTexto = "⚗\uFE0F" , emojiSuperior = "\uD83D\uDCCD" )
             Spacer(modifier = Modifier.width(7.5.dp))
-            TarjetaCategoria(texto = "Historia", colorFondo = Color(0xFFFFB74D), emojiTexto = "\uD83D\uDCDC", emojiSuperior = "\uD83D\uDCCD" )
+            TarjetaCategoria(texto = "Historia", colorFondo = Color(0xFFF4A261), emojiTexto = "\uD83D\uDCDC", emojiSuperior = "\uD83D\uDCCD" )
         } }
 
         item { FlowRow(modifier = Modifier.padding(vertical = 15.dp, horizontal = 6.dp)) {
-            TarjetaCategoria(texto = "Animales", colorFondo = Color(0xFF8BC34A) , emojiTexto = "\uD83D\uDC36" , emojiSuperior = "\uD83D\uDCCD" )
+            TarjetaCategoria(texto = "Animales", colorFondo = Color(0xFF8AC926) , emojiTexto = "\uD83D\uDC36" , emojiSuperior = "\uD83D\uDCCD" )
             Spacer(modifier = Modifier.width(7.5.dp))
-            TarjetaCategoria(texto = "Psicología", colorFondo = Color(0xFF9C27B0), emojiTexto = "\uD83E\uDDE0", emojiSuperior = "\uD83D\uDCCD" )
+            TarjetaCategoria(texto = "Psicología", colorFondo = Color(0xFF9D4EDD), emojiTexto = "\uD83E\uDDE0", emojiSuperior = "\uD83D\uDCCD" )
         } }
 
         item { FlowRow(modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 15.dp, horizontal = 20.dp), horizontalArrangement = Arrangement.Center) {
-            TarjetaCategoria(texto = "Cultura\nGeneral", colorFondo = Color(0xFF3F51B5) , emojiTexto = "\uD83C\uDF0D" , emojiSuperior = "\uD83D\uDCCD" )
-            Spacer(modifier = Modifier.size(150.dp))
+            TarjetaCategoria(texto = "Cultura\nGeneral", colorFondo = Color(0xFF5C80BC) , emojiTexto = "\uD83C\uDF0D" , emojiSuperior = "\uD83D\uDCCD" )
         } }
+        item { Spacer(modifier = Modifier.size(30.dp)) }
+
+
+
+
+         // Curiosos
 
         item { Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
@@ -122,10 +129,28 @@ fun ZonaScrollable(){
                 .height(5.dp)
                 .width(230.dp),
                 thickness = 3.5.dp, color = Color.Black)
+            Spacer(modifier = Modifier.height(30.dp))
+        }
 
-            Spacer(modifier = Modifier.size(150.dp))}
+        item { FlowRow(modifier = Modifier.padding(vertical = 15.dp, horizontal = 6.dp)) {
+            TarjetaCategoria(texto = "Arte", colorFondo = Color(0xFFE07A5F) , emojiTexto = "\uD83C\uDFA8" , emojiSuperior = "\uD83D\uDCCD" )
+            Spacer(modifier = Modifier.width(7.5.dp))
+            TarjetaCategoria(texto = "Misterios", colorFondo = Color(0xFFD5C7BC), emojiTexto = "\uD83D\uDEF8", emojiSuperior = "\uD83D\uDCCD" )
+        } }
+        item { FlowRow(modifier = Modifier.padding(vertical = 15.dp, horizontal = 6.dp)) {
+            TarjetaCategoria(texto = "Idiomas", colorFondo = Color(0xFFFF9F1C) , emojiTexto = "\uD83D\uDDE3\uFE0F" , emojiSuperior = "\uD83D\uDCCD" )
+            Spacer(modifier = Modifier.width(7.5.dp))
+            TarjetaCategoria(texto = "Espacio", colorFondo = Color(0xFF559AF0), emojiTexto = "\uD83D\uDE80", emojiSuperior = "\uD83D\uDCCD" )
+        } }
+        item { FlowRow(modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 15.dp, horizontal = 20.dp), horizontalArrangement = Arrangement.Center) {
+            TarjetaCategoria(texto = "Inventos", colorFondo = Color(0xFFFFBE0B) , emojiTexto = "\uD83D\uDD2C" , emojiSuperior = "\uD83D\uDCCD" )
+            Spacer(modifier = Modifier.height(30.dp))
+        } }
 
 
+        // Ligeros
 
         item {Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
@@ -140,7 +165,27 @@ fun ZonaScrollable(){
                 .width(230.dp),
                 thickness = 3.5.dp, color = Color.Black)
 
-            Spacer(modifier = Modifier.size(150.dp))}
+            Spacer(modifier = Modifier.height(30.dp))
+
+            }
+
+        item { FlowRow(modifier = Modifier.padding(vertical = 15.dp, horizontal = 6.dp)) {
+            TarjetaCategoria(texto = "Videojuegos", colorFondo = Color(0xFFA92375) , emojiTexto = "\uD83C\uDFAE" , emojiSuperior = "\uD83D\uDCCD" )
+            Spacer(modifier = Modifier.width(7.5.dp))
+            TarjetaCategoria(texto = "Comida", colorFondo = Color(0xFFE13B3B), emojiTexto = "\uD83C\uDF54", emojiSuperior = "\uD83D\uDCCD" )
+        } }
+        item { FlowRow(modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 15.dp, horizontal = 20.dp), horizontalArrangement = Arrangement.Center) {
+            TarjetaCategoria(texto = "Marcas", colorFondo = Color(0xFF3A86FF) , emojiTexto = "\uD83D\uDC8E" , emojiSuperior = "\uD83D\uDCCD" )
+            Spacer(modifier = Modifier.height(30.dp))
+        } }
+
+
+
+
+
+        // Otros
 
         item { Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
@@ -153,8 +198,16 @@ fun ZonaScrollable(){
                 .height(5.dp)
                 .width(230.dp),
                 thickness = 3.5.dp, color = Color.Black)
-            Spacer(modifier = Modifier.size(150.dp))}
 
+            Spacer(modifier = Modifier.height(30.dp))
+            }
+
+        item { FlowRow(modifier = Modifier.padding(vertical = 15.dp, horizontal = 6.dp)) {
+            TarjetaCategoria(texto = "Útiles", colorFondo = Color(0xFF2A9D8F) , emojiTexto = "\uD83D\uDEE0\uFE0F" , emojiSuperior = "\uD83D\uDCCD" )
+            Spacer(modifier = Modifier.width(7.5.dp))
+            TarjetaCategoria(texto = "Divertidos", colorFondo = Color(0xFFF72585), emojiTexto = "\uD83E\uDD2A", emojiSuperior = "\uD83D\uDCCD" )
+            Spacer(modifier = Modifier.size(30.dp))
+        } }
     }
 }
 
