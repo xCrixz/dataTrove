@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -40,6 +41,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpOffset
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
@@ -76,7 +79,7 @@ fun PantallaPrincipal(navController: NavController? = null){
                     elevation = FloatingActionButtonDefaults.elevation(defaultElevation = 0.dp),
                     modifier = Modifier
                         .align(Alignment.BottomEnd)
-                        .padding(24.dp)){
+                        .padding(22.dp)){
                     Text(text = "\uD83C\uDFB2", fontSize = 32.sp)
                 }
             }
@@ -209,19 +212,19 @@ fun SeccionPopulares() {
         )
         Spacer(modifier = Modifier.height(30.dp))
         FlowRow(modifier = Modifier.padding(vertical = 15.dp, horizontal = 6.dp)) {
-            TarjetaCategoria(texto = "Amor", colorFondo = Color(0xFFFF6B81), emojiTexto = "❤\uFE0F", emojiSuperior = "\uD83D\uDCCD")
+            TarjetaCategoria(texto = "Am   r", colorFondo = Color(0xFFFF6B81), emojiTexto = "❤\uFE0F", emojiSuperior = "\uD83D\uDCCD", DpOffset(13.2.dp, (3).dp), 14.sp)
             Spacer(modifier = Modifier.width(7.5.dp))
             TarjetaCategoria(texto = "Tecnología", colorFondo = Color(0xFF4D96FF), emojiTexto = "\uD83E\uDD16", emojiSuperior = "\uD83D\uDCCD")
         }
         FlowRow(modifier = Modifier.padding(vertical = 15.dp, horizontal = 6.dp)) {
-            TarjetaCategoria(texto = "Ciencia", colorFondo = Color(0xFF00B4D8), emojiTexto = "⚗\uFE0F", emojiSuperior = "\uD83D\uDCCD")
+            TarjetaCategoria(texto = "Ciencia", colorFondo = Color(0xFF00B4D8), emojiTexto = "⚗\uFE0F", emojiSuperior = "\uD83D\uDCCD", DpOffset((-37).dp, (-47.5).dp), 26.sp)
             Spacer(modifier = Modifier.width(7.5.dp))
-            TarjetaCategoria(texto = "Historia", colorFondo = Color(0xFFF4A261), emojiTexto = "\uD83D\uDCDC", emojiSuperior = "\uD83D\uDCCD")
+            TarjetaCategoria(texto = "Historia", colorFondo = Color(0xFFF4A261), emojiTexto = "\uD83D\uDCDC", emojiSuperior = "\uD83D\uDCCD", DpOffset((-67).dp, 28.dp), 26.sp)
         }
         FlowRow(modifier = Modifier.padding(vertical = 15.dp, horizontal = 6.dp)) {
-            TarjetaCategoria(texto = "Animales", colorFondo = Color(0xFF8AC926), emojiTexto = "\uD83D\uDC36", emojiSuperior = "\uD83D\uDCCD")
+            TarjetaCategoria(texto = "Animales", colorFondo = Color(0xFF8AC926), emojiTexto = "\uD83D\uDC36", emojiSuperior = "\uD83D\uDCCD", DpOffset((-12.2).dp, (-8.5).dp), 13.sp)
             Spacer(modifier = Modifier.width(7.5.dp))
-            TarjetaCategoria(texto = "Psicología", colorFondo = Color(0xFF9D4EDD), emojiTexto = "\uD83E\uDDE0", emojiSuperior = "\uD83D\uDCCD")
+            TarjetaCategoria(texto = "Psicología", colorFondo = Color(0xFF9D4EDD), emojiTexto = "\uD83E\uDDE0", emojiSuperior = "\uD83D\uDCCD", DpOffset(52.5.dp, (-19).dp), 22.sp)
         }
         FlowRow(
             modifier = Modifier
@@ -229,7 +232,7 @@ fun SeccionPopulares() {
                 .padding(vertical = 15.dp, horizontal = 20.dp),
             horizontalArrangement = Arrangement.Center
         ) {
-            TarjetaCategoria(texto = "Cultura\nGeneral", colorFondo = Color(0xFF5C80BC), emojiTexto = "\uD83C\uDF0D", emojiSuperior = "\uD83D\uDCCD")
+            TarjetaCategoria(texto = "Cultura\nGeneral", colorFondo = Color(0xFF5C80BC), emojiTexto = "\uD83C\uDF0D", emojiSuperior = "\uD83D\uDCCD", DpOffset(62.dp, (-30).dp), 26.sp)
         }
         Spacer(modifier = Modifier.size(30.dp))
     }
@@ -328,7 +331,10 @@ fun TarjetaCategoria(
     texto: String,
     colorFondo: Color,
     emojiTexto: String,
-    emojiSuperior: String
+    emojiSuperior: String,
+    emojiTextoOffSet: DpOffset = DpOffset(4.dp, (-4).dp),
+    sizeEmojiTexto: TextUnit = 22.sp
+
 ) {
     Box(
         modifier = Modifier
@@ -350,13 +356,17 @@ fun TarjetaCategoria(
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = "$texto $emojiTexto",
-                fontSize = 20.sp,
+                text = texto,
+                fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 fontFamily = garamondFamily,
                 color = Color.Black
             )
         }
+
+        // Emoji Reposicionado
+        Text(text = emojiTexto, fontSize = sizeEmojiTexto,
+            modifier = Modifier.align(Alignment.Center).offset(emojiTextoOffSet.x, emojiTextoOffSet.y))
 
         // Emoji superior flotando
         if (emojiSuperior.isNotEmpty()) {
