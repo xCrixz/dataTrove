@@ -1,5 +1,9 @@
 package com.sharkzapps.datatrove.pantallas
 
+import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -38,6 +42,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -111,46 +116,74 @@ fun Opciones(){
         fontWeight = FontWeight.Black))
     Spacer(modifier = Modifier.size(14.dp))
     Text(text = "Principal", fontSize = 22.sp, style = TextStyle(fontFamily = garamondFamily,
-        fontWeight = FontWeight.ExtraBold))
+        fontWeight = FontWeight.ExtraBold), modifier = Modifier.clickable {  })
     Spacer(modifier = Modifier.size(14.dp))
     Text(text = "Notificaciones", fontSize = 22.sp, style = TextStyle(fontFamily = garamondFamily,
-        fontWeight = FontWeight.ExtraBold))
+        fontWeight = FontWeight.ExtraBold), modifier = Modifier.clickable {  })
     Spacer(modifier = Modifier.size(14.dp))
     Text(text = "Favortitos", fontSize = 22.sp, style = TextStyle(fontFamily = garamondFamily,
-        fontWeight = FontWeight.ExtraBold))
+        fontWeight = FontWeight.ExtraBold), modifier = Modifier.clickable {  })
     Spacer(modifier = Modifier.size(14.dp))
     Text(text = "Idiomas", fontSize = 22.sp, style = TextStyle(fontFamily = garamondFamily,
-        fontWeight = FontWeight.ExtraBold))
+        fontWeight = FontWeight.ExtraBold), modifier = Modifier.clickable {  })
 }
 
+@SuppressLint("QueryPermissionsNeeded")
 @Composable
 fun Soporte(){
+    val contexto = LocalContext.current
     Text(text = "\uD83D\uDEE0 Soporte", fontSize = 30.sp, style = TextStyle(fontFamily = garamondFamily,
         fontWeight = FontWeight.Black))
     Spacer(modifier = Modifier.size(14.dp))
     Text(text = "Reportar Errores", fontSize = 22.sp, style = TextStyle(fontFamily = garamondFamily,
-        fontWeight = FontWeight.Black))
+        fontWeight = FontWeight.Black), modifier = Modifier.clickable {
+        val intent = Intent(Intent.ACTION_SENDTO).apply {
+            data = Uri.parse(
+                "mailto:sharkzapps@gmail.com"
+            )
+            putExtra(Intent.EXTRA_SUBJECT, "Reporte de error")
+        }
+        // Verifica si hay apps de correo disponibles
+        if (intent.resolveActivity(contexto.packageManager) != null) {
+            contexto.startActivity(intent)
+        } else {
+            Toast
+                .makeText(
+                    contexto,
+                    "No hay apps de correo instaladas",
+                    Toast.LENGTH_SHORT
+                )
+                .show()
+        }
+    })
     Spacer(modifier = Modifier.size(14.dp))
     Text(text = "Calificar app", fontSize = 22.sp, style = TextStyle(fontFamily = garamondFamily,
-        fontWeight = FontWeight.Black))
+        fontWeight = FontWeight.Black), modifier = Modifier.clickable {  })
     Spacer(modifier = Modifier.size(14.dp))
     Text(text = "Ayuda", fontSize = 22.sp, style = TextStyle(fontFamily = garamondFamily,
-        fontWeight = FontWeight.Black))
+        fontWeight = FontWeight.Black), modifier = Modifier.clickable {  })
 }
 
 @Composable
 fun Siguenos(){
+    val contexto = LocalContext.current
     Text(text = "\uD83C\uDF10 Síguenos", fontSize = 30.sp, style = TextStyle(fontFamily = garamondFamily,
         fontWeight = FontWeight.Black))
     Spacer(modifier = Modifier.size(14.dp))
     Text(text = "Instagram", fontSize = 22.sp, style = TextStyle(fontFamily = garamondFamily,
-        fontWeight = FontWeight.Black))
+        fontWeight = FontWeight.Black), modifier = Modifier.clickable { val intent = Intent(Intent.ACTION_VIEW,
+        Uri.parse("https://www.instagram.com/sharkzapps/"))
+        contexto.startActivity(intent)})
     Spacer(modifier = Modifier.size(14.dp))
     Text(text = "Youtube", fontSize = 22.sp, style = TextStyle(fontFamily = garamondFamily,
-        fontWeight = FontWeight.Black))
+        fontWeight = FontWeight.Black), modifier = Modifier.clickable { val intent = Intent(Intent.ACTION_VIEW,
+        Uri.parse("https://www.youtube.com/channel/UCYsPCT3YmrOp4pEaod5W1xQ/posts?pvf=CAI%253D"))
+        contexto.startActivity(intent)})
     Spacer(modifier = Modifier.size(14.dp))
     Text(text = "TikTok", fontSize = 22.sp, style = TextStyle(fontFamily = garamondFamily,
-        fontWeight = FontWeight.Black))
+        fontWeight = FontWeight.Black), modifier = Modifier.clickable { val intent = Intent(Intent.ACTION_VIEW,
+        Uri.parse("https://www.tiktok.com/@sharkzapps"))
+        contexto.startActivity(intent)})
 }
 
 
