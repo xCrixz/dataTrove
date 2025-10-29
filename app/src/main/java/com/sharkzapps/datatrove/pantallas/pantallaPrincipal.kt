@@ -2,6 +2,7 @@ package com.sharkzapps.datatrove.pantallas
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.ActivityNotFoundException
 import android.net.Uri
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -137,16 +138,20 @@ fun Soporte(){
     Spacer(modifier = Modifier.size(14.dp))
     Text(text = "Reportar Errores", fontSize = 22.sp, style = TextStyle(fontFamily = garamondFamily,
         fontWeight = FontWeight.Black), modifier = Modifier.clickable {
-        val intent = Intent(Intent.ACTION_SENDTO).apply {
-            data = Uri.parse(
-                "mailto:sharkzapps@gmail.com"
-            )
-            putExtra(Intent.EXTRA_SUBJECT, "Reporte de error")
-        }
-        // Verifica si hay apps de correo disponibles
-        if (intent.resolveActivity(contexto.packageManager) != null) {
-            contexto.startActivity(intent)
-        } else {
+        val subject = Uri.encode("Reporte de error")
+        val body = Uri.encode(
+            """
+            Por favor completar:
+            - Descripción del problema:
+            """.trimIndent()
+        )
+        val uri = Uri.parse("mailto:sharkzapps@gmail.com?subject=$subject&body=$body")
+        val intent = Intent(Intent.ACTION_SENDTO, uri)
+
+        try {
+            val chooser = Intent.createChooser(intent, "Enviar reporte con…")
+            contexto.startActivity(chooser)
+        } catch (e: ActivityNotFoundException) {
             Toast
                 .makeText(
                     contexto,
@@ -252,10 +257,10 @@ fun SeccionPopulares() {
         FlowRow(modifier = Modifier.padding(vertical = 15.dp, horizontal = 6.dp)) {
             TarjetaCategoria(texto = "Ciencia", colorFondo = Color(0xFF00B4D8), emojiTexto = "⚗\uFE0F", emojiSuperior = "\uD83D\uDCCD", DpOffset((-37).dp, (-47.5).dp), 26.sp)
             Spacer(modifier = Modifier.width(7.5.dp))
-            TarjetaCategoria(texto = "Historia", colorFondo = Color(0xFFF4A261), emojiTexto = "\uD83D\uDCDC", emojiSuperior = "\uD83D\uDCCD", DpOffset((-67).dp, 28.dp), 26.sp)
+            TarjetaCategoria(texto = "Historia", colorFondo = Color(0xFFF4A261), emojiTexto = "\uD83D\uDCDC", emojiSuperior = "\uD83D\uDCCD", DpOffset((-67).dp, 30.dp), 26.sp)
         }
         FlowRow(modifier = Modifier.padding(vertical = 15.dp, horizontal = 6.dp)) {
-            TarjetaCategoria(texto = "Animales", colorFondo = Color(0xFF8AC926), emojiTexto = "\uD83D\uDC36", emojiSuperior = "\uD83D\uDCCD", DpOffset((-12.2).dp, (-8.5).dp), 13.sp)
+            TarjetaCategoria(texto = "Animales", colorFondo = Color(0xFF8AC926), emojiTexto = "\uD83D\uDC36", emojiSuperior = "\uD83D\uDCCD", DpOffset((-12.25).dp, (-8.5).dp), 13.sp)
             Spacer(modifier = Modifier.width(7.5.dp))
             TarjetaCategoria(texto = "Psicología", colorFondo = Color(0xFF9D4EDD), emojiTexto = "\uD83E\uDDE0", emojiSuperior = "\uD83D\uDCCD", DpOffset(52.5.dp, (-19).dp), 22.sp)
         }
@@ -286,14 +291,14 @@ fun SeccionCuriosos() {
         )
         Spacer(modifier = Modifier.height(30.dp))
         FlowRow(modifier = Modifier.padding(vertical = 15.dp, horizontal = 6.dp)) {
-            TarjetaCategoria(texto = "Arte", colorFondo = Color(0xFFE07A5F), emojiTexto = "\uD83C\uDFA8", emojiSuperior = "\uD83D\uDCCD", DpOffset((-67).dp, 28.dp), 26.sp)
+            TarjetaCategoria(texto = "Arte", colorFondo = Color(0xFFE07A5F), emojiTexto = "\uD83C\uDFA8", emojiSuperior = "\uD83D\uDCCD", DpOffset((-65).dp, 32.dp), 26.sp)
             Spacer(modifier = Modifier.width(7.5.dp))
-            TarjetaCategoria(texto = "Misterios", colorFondo = Color(0xFFD5C7BC), emojiTexto = "\uD83D\uDEF8", emojiSuperior = "\uD83D\uDCCD", DpOffset(37.dp, (-55).dp), 26.sp)
+            TarjetaCategoria(texto = "Misterios", colorFondo = Color(0xFFD5C7BC), emojiTexto = "\uD83D\uDEF8", emojiSuperior = "\uD83D\uDCCD", DpOffset(45.dp, (-51).dp), 26.sp)
         }
         FlowRow(modifier = Modifier.padding(vertical = 15.dp, horizontal = 6.dp)) {
-            TarjetaCategoria(texto = "Idiomas", colorFondo = Color(0xFFFF9F1C), emojiTexto = "\uD83D\uDDE3\uFE0F", emojiSuperior = "\uD83D\uDCCD", DpOffset(62.dp, (-30).dp), 22.sp)
+            TarjetaCategoria(texto = "Idiomas", colorFondo = Color(0xFFFF9F1C), emojiTexto = "\uD83D\uDDE3\uFE0F", emojiSuperior = "\uD83D\uDCCD", DpOffset(69.dp, (-33).dp), 24.sp)
             Spacer(modifier = Modifier.width(7.5.dp))
-            TarjetaCategoria(texto = "Espacio", colorFondo = Color(0xFF559AF0), emojiTexto = "\uD83D\uDE80", emojiSuperior = "\uD83D\uDCCD", DpOffset(50.dp, 19.dp), 26.sp)
+            TarjetaCategoria(texto = "Espacio", colorFondo = Color(0xFF559AF0), emojiTexto = "\uD83D\uDE80", emojiSuperior = "\uD83D\uDCCD", DpOffset(50.dp, 17.dp), 26.sp)
         }
         FlowRow(
             modifier = Modifier
@@ -319,9 +324,9 @@ fun SeccionLigeros() {
             thickness = 3.5.dp, color = Color.Black)
         Spacer(modifier = Modifier.height(30.dp))
         FlowRow(modifier = Modifier.padding(vertical = 15.dp, horizontal = 6.dp)) {
-            TarjetaCategoria(texto = "Videojuegos", colorFondo = Color(0xFFA92375), emojiTexto = "\uD83C\uDFAE", emojiSuperior = "\uD83D\uDCCD", DpOffset((-45).dp, (-40).dp), 26.sp)
+            TarjetaCategoria(texto = "Videojuegos", colorFondo = Color(0xFFA92375), emojiTexto = "\uD83C\uDFAE", emojiSuperior = "\uD83D\uDCCD", DpOffset((-62).dp, (-29.5).dp), 26.sp)
             Spacer(modifier = Modifier.width(7.5.dp))
-            TarjetaCategoria(texto = "Comida", colorFondo = Color(0xFFE13B3B), emojiTexto = "\uD83C\uDF54", emojiSuperior = "\uD83D\uDCCD", DpOffset(37.dp, (-48.5).dp), 26.sp)
+            TarjetaCategoria(texto = "Comida", colorFondo = Color(0xFFE13B3B), emojiTexto = "\uD83C\uDF54", emojiSuperior = "\uD83D\uDCCD", DpOffset(65.5.dp, (-33.5).dp), 26.sp)
         }
         FlowRow(
             modifier = Modifier
@@ -329,7 +334,7 @@ fun SeccionLigeros() {
                 .padding(vertical = 15.dp, horizontal = 20.dp),
             horizontalArrangement = Arrangement.Center
         ) {
-            TarjetaCategoria(texto = "Marcas", colorFondo = Color(0xFF3A86FF), emojiTexto = "\uD83D\uDC8E", emojiSuperior = "\uD83D\uDCCD", DpOffset(62.dp, (-30).dp), 26.sp)
+            TarjetaCategoria(texto = "Marcas", colorFondo = Color(0xFF3A86FF), emojiTexto = "\uD83D\uDC8E", emojiSuperior = "\uD83D\uDCCD", DpOffset(68.dp, (-29.5).dp), 26.sp)
             Spacer(modifier = Modifier.height(30.dp))
         }
     }
@@ -350,9 +355,9 @@ fun SeccionOtros() {
         )
         Spacer(modifier = Modifier.height(30.dp))
         FlowRow(modifier = Modifier.padding(vertical = 15.dp, horizontal = 6.dp)) {
-            TarjetaCategoria(texto = "Útiles", colorFondo = Color(0xFF2A9D8F), emojiTexto = "\uD83D\uDEE0\uFE0F", emojiSuperior = "\uD83D\uDCCD", DpOffset((-45).dp, (-40).dp), 26.sp)
+            TarjetaCategoria(texto = "Útiles", colorFondo = Color(0xFF2A9D8F), emojiTexto = "\uD83D\uDEE0\uFE0F", emojiSuperior = "\uD83D\uDCCD", DpOffset((-67).dp, (-33).dp), 26.sp)
             Spacer(modifier = Modifier.width(7.5.dp))
-            TarjetaCategoria(texto = "Divertidos", colorFondo = Color(0xFFF72585), emojiTexto = "\uD83E\uDD2A", emojiSuperior = "\uD83D\uDCCD", DpOffset((-45).dp, (-40).dp), 26.sp)
+            TarjetaCategoria(texto = "Divertidos", colorFondo = Color(0xFFF72585), emojiTexto = "\uD83E\uDD2A", emojiSuperior = "\uD83D\uDCCD", DpOffset((-64.5).dp, (-32).dp), 26.sp)
             Spacer(modifier = Modifier.size(30.dp))
         }
         Spacer(modifier = Modifier.size(50.dp))

@@ -90,8 +90,10 @@ fun CargaCircular(){
     }
     CircularProgressIndicator(
         progress = {progreso},
-        modifier = Modifier.size(70.dp),
-        color = Color.DarkGray
+        modifier = Modifier.size(90.dp),
+        color = Color.Black,
+        trackColor = Color.White,
+        strokeWidth = 9.dp
     )
 }
 
