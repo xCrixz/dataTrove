@@ -24,9 +24,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import com.sharkzapps.datatrove.pantallas.Encabezado
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun CategoriaPsicologia(onMenuClick: () -> Unit) {
+fun CategoriaPsicologia(navController: NavController? = null) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -43,7 +45,8 @@ fun CategoriaPsicologia(onMenuClick: () -> Unit) {
             modifier = Modifier.fillMaxSize().padding(16.dp, 20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Encabezado(onMenuClick)
+            val controller = navController ?: rememberNavController()
+            Encabezado(navController = controller, onMenuClick = {})
             Spacer(modifier = Modifier.height(40.dp))
             Text(text = "Psicología",
                 fontSize = 35.sp,
@@ -62,5 +65,5 @@ fun CategoriaPsicologia(onMenuClick: () -> Unit) {
 @Preview(showBackground = true, apiLevel = 34)
 @Composable
 fun PreviewCategoriaPsicologia() {
-    CategoriaPsicologia(onMenuClick = {})
+    CategoriaPsicologia()
 }

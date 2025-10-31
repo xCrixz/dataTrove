@@ -24,9 +24,11 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.style.TextAlign
 import com.sharkzapps.datatrove.ui.theme.garamondFamily
 import com.sharkzapps.datatrove.pantallas.Encabezado
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun CategoriaCGeneral(onMenuClick: () -> Unit) {
+fun CategoriaCGeneral(navController: NavController? = null) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -43,7 +45,8 @@ fun CategoriaCGeneral(onMenuClick: () -> Unit) {
             modifier = Modifier.fillMaxSize().padding(16.dp, 20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Encabezado(onMenuClick)
+            val controller = navController ?: rememberNavController()
+            Encabezado(navController = controller, onMenuClick = {})
             Spacer(modifier = Modifier.height(40.dp))
             Text(text = "Cultura General",
                 fontSize = 35.sp,
@@ -62,5 +65,5 @@ fun CategoriaCGeneral(onMenuClick: () -> Unit) {
 @Preview(showBackground = true, apiLevel = 34)
 @Composable
 fun PreviewCategoriaCGeneral() {
-    CategoriaCGeneral(onMenuClick = {})
+    CategoriaCGeneral()
 }

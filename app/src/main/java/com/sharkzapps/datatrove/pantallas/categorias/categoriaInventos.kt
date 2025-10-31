@@ -24,9 +24,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.sharkzapps.datatrove.pantallas.Encabezado
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun CategoriaInventos(onMenuClick: () -> Unit) {
+fun CategoriaInventos(navController: NavController? = null) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -43,7 +45,8 @@ fun CategoriaInventos(onMenuClick: () -> Unit) {
             modifier = Modifier.fillMaxSize().padding(16.dp, 20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Encabezado(onMenuClick)
+            val controller = navController ?: rememberNavController()
+            Encabezado(navController = controller, onMenuClick = {})
             Spacer(modifier = Modifier.height(40.dp))
 
             Text(
@@ -63,5 +66,5 @@ fun CategoriaInventos(onMenuClick: () -> Unit) {
 @Preview(showBackground = true, apiLevel = 34)
 @Composable
 fun PreviewCategoriaInventos() {
-    CategoriaInventos(onMenuClick = {})
+    CategoriaInventos()
 }

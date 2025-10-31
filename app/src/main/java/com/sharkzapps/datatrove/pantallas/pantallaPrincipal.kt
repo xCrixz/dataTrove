@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.FloatingActionButton
@@ -37,6 +38,7 @@ import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -53,6 +55,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.sharkzapps.datatrove.ui.theme.abrilFamily
 import com.sharkzapps.datatrove.ui.theme.garamondFamily
 import kotlinx.coroutines.launch
@@ -79,8 +82,9 @@ fun PantallaPrincipal(navController: NavController? = null){
                     )
             ) {
                 ZonaScrollable(onMenuClick = {
-                    scope.launch { drawerState.open() }
-                })
+                    scope.launch { drawerState.open() } },
+                    navController = navController!!
+                    )
                 FloatingActionButton(onClick = { /*TODO*/ }, containerColor = Color.Transparent,
                     elevation = FloatingActionButtonDefaults.elevation(defaultElevation = 0.dp),
                     modifier = Modifier
@@ -194,14 +198,27 @@ fun Siguenos(){
 
 
 @Composable
-fun Encabezado(onMenuClick: () -> Unit){
+fun Encabezado(navController: NavController, onMenuClick: () -> Unit){
+
+    val currentBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = currentBackStackEntry?.destination?.route
+
     Column(modifier = Modifier
         .fillMaxWidth()
         .padding(top = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally) {
             Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                IconButton(onClick =  onMenuClick ) {
-                    Icon(imageVector = Icons.Default.Menu, contentDescription = "Menú lateral", Modifier.size(40.dp)) }
+                IconButton(onClick =  {
+                    if (currentRoute == "principal"){
+                        onMenuClick()
+                    } else { navController.popBackStack() }
+                } ) {
+                    val icon = if (currentRoute == "principal"){
+                        Icons.Default.Menu
+                    } else { Icons.Default.ArrowBack }
+
+                    val descripcion = if (currentRoute == "principal") "Menu lateral" else "Volver atras"
+                    Icon(imageVector = icon, contentDescription = descripcion, Modifier.size(40.dp)) }
             }
 
         Text(text = "       Data  ✨\n     Trove!", fontSize = 50.sp, style = TextStyle
@@ -219,24 +236,25 @@ fun Encabezado(onMenuClick: () -> Unit){
     }
 }
 
+
 @Composable
-fun ZonaScrollable(onMenuClick: () -> Unit){
+fun ZonaScrollable(onMenuClick: () -> Unit, navController: NavController?){
     LazyColumn(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 4.dp),
         contentPadding = PaddingValues(horizontal = 10.dp, vertical = 8.dp)
     ) {
-        item { Encabezado(onMenuClick) }
-        item { SeccionPopulares() }
-        item { SeccionCuriosos() }
-        item { SeccionLigeros() }
-        item { SeccionOtros() }
+        item { Encabezado(navController = navController!!,onMenuClick = onMenuClick) }
+        item { SeccionPopulares(navController!!) }
+        item { SeccionCuriosos(navController!!) }
+        item { SeccionLigeros(navController!!) }
+        item { SeccionOtros(navController!!) }
     }
 }
 
 @Composable
-fun SeccionPopulares() {
+fun SeccionPopulares(navController: NavController) {
     Column {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(text = "Populares ", fontSize = 35.sp, style = TextStyle(fontFamily = garamondFamily, fontWeight = FontWeight.Black))
@@ -250,19 +268,19 @@ fun SeccionPopulares() {
         )
         Spacer(modifier = Modifier.height(30.dp))
         FlowRow(modifier = Modifier.padding(vertical = 15.dp, horizontal = 6.dp)) {
-            TarjetaCategoria(texto = "Am   r", colorFondo = Color(0xFFFF6B81), emojiTexto = "❤\uFE0F", emojiSuperior = "\uD83D\uDCCD", DpOffset(13.2.dp, (3).dp), 14.sp)
+            TarjetaCategoria(texto = "Am   r", colorFondo = Color(0xFFFF6B81), emojiTexto = "❤\uFE0F", emojiSuperior = "\uD83D\uDCCD", DpOffset(13.2.dp, (3).dp), 14.sp, onClick = {navController.navigate("categoria_amor")})
             Spacer(modifier = Modifier.width(7.5.dp))
-            TarjetaCategoria(texto = "Tecnología", colorFondo = Color(0xFF4D96FF), emojiTexto = "\uD83E\uDD16", emojiSuperior = "\uD83D\uDCCD", DpOffset(37.dp, (-48.5).dp), 26.sp)
+            TarjetaCategoria(texto = "Tecnología", colorFondo = Color(0xFF4D96FF), emojiTexto = "\uD83E\uDD16", emojiSuperior = "\uD83D\uDCCD", DpOffset(37.dp, (-48.5).dp), 26.sp, onClick = { navController.navigate("categoria_tecnologia") })
         }
         FlowRow(modifier = Modifier.padding(vertical = 15.dp, horizontal = 6.dp)) {
-            TarjetaCategoria(texto = "Ciencia", colorFondo = Color(0xFF00B4D8), emojiTexto = "⚗\uFE0F", emojiSuperior = "\uD83D\uDCCD", DpOffset((-37).dp, (-47.5).dp), 26.sp)
+            TarjetaCategoria(texto = "Ciencia", colorFondo = Color(0xFF00B4D8), emojiTexto = "⚗\uFE0F", emojiSuperior = "\uD83D\uDCCD", DpOffset((-37).dp, (-47.5).dp), 26.sp, onClick = { navController.navigate("categoria_ciencia") })
             Spacer(modifier = Modifier.width(7.5.dp))
-            TarjetaCategoria(texto = "Historia", colorFondo = Color(0xFFF4A261), emojiTexto = "\uD83D\uDCDC", emojiSuperior = "\uD83D\uDCCD", DpOffset((-67).dp, 30.dp), 26.sp)
+            TarjetaCategoria(texto = "Historia", colorFondo = Color(0xFFF4A261), emojiTexto = "\uD83D\uDCDC", emojiSuperior = "\uD83D\uDCCD", DpOffset((-67).dp, 30.dp), 26.sp, onClick = { navController.navigate("categoria_historia") })
         }
         FlowRow(modifier = Modifier.padding(vertical = 15.dp, horizontal = 6.dp)) {
-            TarjetaCategoria(texto = "Animales", colorFondo = Color(0xFF8AC926), emojiTexto = "\uD83D\uDC36", emojiSuperior = "\uD83D\uDCCD", DpOffset((-12.25).dp, (-8.5).dp), 13.sp)
+            TarjetaCategoria(texto = "Animales", colorFondo = Color(0xFF8AC926), emojiTexto = "\uD83D\uDC36", emojiSuperior = "\uD83D\uDCCD", DpOffset((-12.25).dp, (-8.5).dp), 13.sp, onClick = { navController.navigate("categoria_animales") })
             Spacer(modifier = Modifier.width(7.5.dp))
-            TarjetaCategoria(texto = "Psicología", colorFondo = Color(0xFF9D4EDD), emojiTexto = "\uD83E\uDDE0", emojiSuperior = "\uD83D\uDCCD", DpOffset(52.5.dp, (-19).dp), 22.sp)
+            TarjetaCategoria(texto = "Psicología", colorFondo = Color(0xFF9D4EDD), emojiTexto = "\uD83E\uDDE0", emojiSuperior = "\uD83D\uDCCD", DpOffset(52.5.dp, (-19).dp), 22.sp, onClick = { navController.navigate("categoria_psicologia") })
         }
         FlowRow(
             modifier = Modifier
@@ -270,14 +288,14 @@ fun SeccionPopulares() {
                 .padding(vertical = 15.dp, horizontal = 20.dp),
             horizontalArrangement = Arrangement.Center
         ) {
-            TarjetaCategoria(texto = "Cultura\nGeneral", colorFondo = Color(0xFF5C80BC), emojiTexto = "\uD83C\uDF0D", emojiSuperior = "\uD83D\uDCCD", DpOffset(62.dp, (-30).dp), 26.sp)
+            TarjetaCategoria(texto = "Cultura\nGeneral", colorFondo = Color(0xFF5C80BC), emojiTexto = "\uD83C\uDF0D", emojiSuperior = "\uD83D\uDCCD", DpOffset(62.dp, (-30).dp), 26.sp, onClick = { navController.navigate("categoria_cgeneral") })
         }
         Spacer(modifier = Modifier.size(30.dp))
     }
 }
 
 @Composable
-fun SeccionCuriosos() {
+fun SeccionCuriosos(navController: NavController) {
     Column {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(text = "Curiosos ", fontSize = 35.sp, style = TextStyle(fontFamily = garamondFamily, fontWeight = FontWeight.Black))
@@ -291,28 +309,28 @@ fun SeccionCuriosos() {
         )
         Spacer(modifier = Modifier.height(30.dp))
         FlowRow(modifier = Modifier.padding(vertical = 15.dp, horizontal = 6.dp)) {
-            TarjetaCategoria(texto = "Arte", colorFondo = Color(0xFFE07A5F), emojiTexto = "\uD83C\uDFA8", emojiSuperior = "\uD83D\uDCCD", DpOffset((-65).dp, 32.dp), 26.sp)
+            TarjetaCategoria(texto = "Arte", colorFondo = Color(0xFFE07A5F), emojiTexto = "\uD83C\uDFA8", emojiSuperior = "\uD83D\uDCCD", DpOffset((-65).dp, 32.dp), 26.sp, onClick = { navController.navigate("categoria_arte") })
             Spacer(modifier = Modifier.width(7.5.dp))
-            TarjetaCategoria(texto = "Misterios", colorFondo = Color(0xFFD5C7BC), emojiTexto = "\uD83D\uDEF8", emojiSuperior = "\uD83D\uDCCD", DpOffset(45.dp, (-51).dp), 26.sp)
+            TarjetaCategoria(texto = "Misterios", colorFondo = Color(0xFFD5C7BC), emojiTexto = "\uD83D\uDEF8", emojiSuperior = "\uD83D\uDCCD", DpOffset(45.dp, (-51).dp), 26.sp, onClick = { navController.navigate("categoria_misterios") })
         }
         FlowRow(modifier = Modifier.padding(vertical = 15.dp, horizontal = 6.dp)) {
-            TarjetaCategoria(texto = "Idiomas", colorFondo = Color(0xFFFF9F1C), emojiTexto = "\uD83D\uDDE3\uFE0F", emojiSuperior = "\uD83D\uDCCD", DpOffset(69.dp, (-33).dp), 24.sp)
+            TarjetaCategoria(texto = "Idiomas", colorFondo = Color(0xFFFF9F1C), emojiTexto = "\uD83D\uDDE3\uFE0F", emojiSuperior = "\uD83D\uDCCD", DpOffset(69.dp, (-33).dp), 24.sp, onClick = { navController.navigate("categoria_idiomas") })
             Spacer(modifier = Modifier.width(7.5.dp))
-            TarjetaCategoria(texto = "Espacio", colorFondo = Color(0xFF559AF0), emojiTexto = "\uD83D\uDE80", emojiSuperior = "\uD83D\uDCCD", DpOffset(50.dp, 17.dp), 26.sp)
+            TarjetaCategoria(texto = "Espacio", colorFondo = Color(0xFF559AF0), emojiTexto = "\uD83D\uDE80", emojiSuperior = "\uD83D\uDCCD", DpOffset(50.dp, 17.dp), 26.sp, onClick = { navController.navigate("categoria_espacio") })
         }
         FlowRow(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 15.dp, horizontal = 20.dp),
             horizontalArrangement = Arrangement.Center) {
-            TarjetaCategoria(texto = "Inventos", colorFondo = Color(0xFFFFBE0B), emojiTexto = "\uD83D\uDD2C", emojiSuperior = "\uD83D\uDCCD", DpOffset(50.dp,20.dp ), 26.sp)
+            TarjetaCategoria(texto = "Inventos", colorFondo = Color(0xFFFFBE0B), emojiTexto = "\uD83D\uDD2C", emojiSuperior = "\uD83D\uDCCD", DpOffset(50.dp,20.dp ), 26.sp, onClick = { navController.navigate("categoria_inventos") })
             Spacer(modifier = Modifier.height(30.dp))
         }
     }
 }
 
 @Composable
-fun SeccionLigeros() {
+fun SeccionLigeros(navController: NavController) {
     Column {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(text = "Ligeros ", fontSize = 35.sp, style = TextStyle(fontFamily = garamondFamily, fontWeight = FontWeight.Black))
@@ -324,9 +342,9 @@ fun SeccionLigeros() {
             thickness = 3.5.dp, color = Color.Black)
         Spacer(modifier = Modifier.height(30.dp))
         FlowRow(modifier = Modifier.padding(vertical = 15.dp, horizontal = 6.dp)) {
-            TarjetaCategoria(texto = "Videojuegos", colorFondo = Color(0xFFA92375), emojiTexto = "\uD83C\uDFAE", emojiSuperior = "\uD83D\uDCCD", DpOffset((-62).dp, (-29.5).dp), 26.sp)
+            TarjetaCategoria(texto = "Videojuegos", colorFondo = Color(0xFFA92375), emojiTexto = "\uD83C\uDFAE", emojiSuperior = "\uD83D\uDCCD", DpOffset((-62).dp, (-29.5).dp), 26.sp, onClick = { navController.navigate("categoria_videoj") })
             Spacer(modifier = Modifier.width(7.5.dp))
-            TarjetaCategoria(texto = "Comida", colorFondo = Color(0xFFE13B3B), emojiTexto = "\uD83C\uDF54", emojiSuperior = "\uD83D\uDCCD", DpOffset(65.5.dp, (-33.5).dp), 26.sp)
+            TarjetaCategoria(texto = "Comida", colorFondo = Color(0xFFE13B3B), emojiTexto = "\uD83C\uDF54", emojiSuperior = "\uD83D\uDCCD", DpOffset(65.5.dp, (-33.5).dp), 26.sp, onClick = { navController.navigate("categoria_comida") })
         }
         FlowRow(
             modifier = Modifier
@@ -334,14 +352,14 @@ fun SeccionLigeros() {
                 .padding(vertical = 15.dp, horizontal = 20.dp),
             horizontalArrangement = Arrangement.Center
         ) {
-            TarjetaCategoria(texto = "Marcas", colorFondo = Color(0xFF3A86FF), emojiTexto = "\uD83D\uDC8E", emojiSuperior = "\uD83D\uDCCD", DpOffset(68.dp, (-29.5).dp), 26.sp)
+            TarjetaCategoria(texto = "Marcas", colorFondo = Color(0xFF3A86FF), emojiTexto = "\uD83D\uDC8E", emojiSuperior = "\uD83D\uDCCD", DpOffset(68.dp, (-29.5).dp), 26.sp, onClick = { navController.navigate("categoria_marcas") })
             Spacer(modifier = Modifier.height(30.dp))
         }
     }
 }
 
 @Composable
-fun SeccionOtros() {
+fun SeccionOtros(navController: NavController) {
     Column {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(text = "Otros ", fontSize = 35.sp, style = TextStyle(fontFamily = garamondFamily, fontWeight = FontWeight.Black))
@@ -355,9 +373,9 @@ fun SeccionOtros() {
         )
         Spacer(modifier = Modifier.height(30.dp))
         FlowRow(modifier = Modifier.padding(vertical = 15.dp, horizontal = 6.dp)) {
-            TarjetaCategoria(texto = "Útiles", colorFondo = Color(0xFF2A9D8F), emojiTexto = "\uD83D\uDEE0\uFE0F", emojiSuperior = "\uD83D\uDCCD", DpOffset((-67).dp, (-33).dp), 26.sp)
+            TarjetaCategoria(texto = "Útiles", colorFondo = Color(0xFF2A9D8F), emojiTexto = "\uD83D\uDEE0\uFE0F", emojiSuperior = "\uD83D\uDCCD", DpOffset((-67).dp, (-33).dp), 26.sp, onClick = { navController.navigate("categoria_utiles") })
             Spacer(modifier = Modifier.width(7.5.dp))
-            TarjetaCategoria(texto = "Divertidos", colorFondo = Color(0xFFF72585), emojiTexto = "\uD83E\uDD2A", emojiSuperior = "\uD83D\uDCCD", DpOffset((-64.5).dp, (-32).dp), 26.sp)
+            TarjetaCategoria(texto = "Divertidos", colorFondo = Color(0xFFF72585), emojiTexto = "\uD83E\uDD2A", emojiSuperior = "\uD83D\uDCCD", DpOffset((-64.5).dp, (-32).dp), 26.sp, onClick = { navController.navigate("categoria_divertidos") })
             Spacer(modifier = Modifier.size(30.dp))
         }
         Spacer(modifier = Modifier.size(50.dp))
@@ -371,7 +389,8 @@ fun TarjetaCategoria(
     emojiTexto: String,
     emojiSuperior: String,
     emojiTextoOffSet: DpOffset = DpOffset(4.dp, (-4).dp),
-    sizeEmojiTexto: TextUnit = 22.sp
+    sizeEmojiTexto: TextUnit = 22.sp,
+    onClick: () -> Unit = {}
 
 ) {
     Box(
@@ -379,7 +398,7 @@ fun TarjetaCategoria(
             .padding(8.dp)
             .width(140.dp)
             .height(70.dp)
-            .clickable { /* Acción al hacer clic */ }
+            .clickable { onClick() }
     ) {
         // Caja base (tarjeta) con degradado
         Box(
@@ -404,7 +423,9 @@ fun TarjetaCategoria(
 
         // Emoji Reposicionado
         Text(text = emojiTexto, fontSize = sizeEmojiTexto,
-            modifier = Modifier.align(Alignment.Center).offset(emojiTextoOffSet.x, emojiTextoOffSet.y))
+            modifier = Modifier
+                .align(Alignment.Center)
+                .offset(emojiTextoOffSet.x, emojiTextoOffSet.y))
 
         // Emoji superior flotando
         if (emojiSuperior.isNotEmpty()) {

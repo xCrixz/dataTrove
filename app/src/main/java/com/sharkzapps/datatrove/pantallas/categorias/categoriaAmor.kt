@@ -22,11 +22,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.sharkzapps.datatrove.pantallas.Encabezado
 import com.sharkzapps.datatrove.ui.theme.garamondFamily
 
 @Composable
-fun CategriaAmor(onMenuClick:() -> Unit){
+fun CategoriaAmor(navController: NavController? = null){
     Box(modifier = Modifier
         .fillMaxSize()
         .background(
@@ -42,7 +44,10 @@ fun CategriaAmor(onMenuClick:() -> Unit){
             .fillMaxSize()
             .padding(16.dp, 20.dp),
             horizontalAlignment = Alignment.CenterHorizontally) {
-                Encabezado(onMenuClick)
+
+                val controller = navController ?: rememberNavController()
+                Encabezado(navController = controller, onMenuClick = {})
+
             
                 Spacer(modifier = Modifier.height(40.dp))
             
@@ -55,7 +60,10 @@ fun CategriaAmor(onMenuClick:() -> Unit){
                     textAlign = TextAlign.Start
                 )
 
-                HorizontalDivider(modifier = Modifier.height(5.dp).width(230.dp).align(Alignment.Start),
+                HorizontalDivider(modifier = Modifier
+                    .height(5.dp)
+                    .width(230.dp)
+                    .align(Alignment.Start),
                     thickness = 3.5.dp, color = Color.Black)
         }
     }
@@ -64,5 +72,5 @@ fun CategriaAmor(onMenuClick:() -> Unit){
 @Preview(showBackground = true, apiLevel = 34)
 @Composable
 fun PreviewCategoriaAmor(){
-    CategriaAmor(onMenuClick = {})
+    CategoriaAmor()
 }

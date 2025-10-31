@@ -24,9 +24,11 @@ import com.sharkzapps.datatrove.ui.theme.garamondFamily
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.style.TextAlign
 import com.sharkzapps.datatrove.pantallas.Encabezado
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun CategoriaTecno(onMenuClick: () -> Unit) {
+fun CategoriaTecno(navController: NavController? = null) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -43,7 +45,8 @@ fun CategoriaTecno(onMenuClick: () -> Unit) {
             modifier = Modifier.fillMaxSize().padding(16.dp, 20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Encabezado(onMenuClick)
+            val controller = navController ?: rememberNavController()
+            Encabezado(navController = controller, onMenuClick = {})
             Spacer(modifier = Modifier.height(40.dp))
             Text(text = "Tecnología",
                 fontSize = 35.sp,
@@ -62,5 +65,5 @@ fun CategoriaTecno(onMenuClick: () -> Unit) {
 @Preview(showBackground = true, apiLevel = 34)
 @Composable
 fun PreviewCategoriaTecno() {
-    CategoriaTecno(onMenuClick = {})
+    CategoriaTecno()
 }
