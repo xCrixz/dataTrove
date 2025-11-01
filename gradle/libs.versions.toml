@@ -12,6 +12,7 @@ navigationCompose = "2.9.0"
 navigationRuntimeAndroid = "2.9.0"
 navigationRuntimeJvmstubs = "2.9.0"
 navigationRuntimeDesktop = "2.9.0-beta01"
+navigationComposeJvmstubs = "2.9.5"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -32,6 +33,7 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 androidx-navigation-runtime-android = { group = "androidx.navigation", name = "navigation-runtime-android", version.ref = "navigationRuntimeAndroid" }
 androidx-navigation-runtime-jvmstubs = { group = "androidx.navigation", name = "navigation-runtime-jvmstubs", version.ref = "navigationRuntimeJvmstubs" }
 androidx-navigation-runtime-desktop = { group = "androidx.navigation", name = "navigation-runtime-desktop", version.ref = "navigationRuntimeDesktop" }
+androidx-navigation-compose-jvmstubs = { group = "androidx.navigation", name = "navigation-compose-jvmstubs", version.ref = "navigationComposeJvmstubs" }
 
 [plugins]
 android-application = { id = "com.android.application", version = "8.4.0" }

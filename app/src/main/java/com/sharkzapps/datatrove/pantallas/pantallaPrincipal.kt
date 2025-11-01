@@ -56,12 +56,14 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.sharkzapps.datatrove.ui.theme.abrilFamily
 import com.sharkzapps.datatrove.ui.theme.garamondFamily
 import kotlinx.coroutines.launch
 
 @Composable
 fun PantallaPrincipal(navController: NavController? = null){
+        val controller = navController ?: rememberNavController()
         val drawerState = rememberDrawerState(DrawerValue.Closed)
         val scope = rememberCoroutineScope()
 
@@ -83,7 +85,7 @@ fun PantallaPrincipal(navController: NavController? = null){
             ) {
                 ZonaScrollable(onMenuClick = {
                     scope.launch { drawerState.open() } },
-                    navController = navController!!
+                    navController = controller
                     )
                 FloatingActionButton(onClick = { /*TODO*/ }, containerColor = Color.Transparent,
                     elevation = FloatingActionButtonDefaults.elevation(defaultElevation = 0.dp),
