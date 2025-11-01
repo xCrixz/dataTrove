@@ -42,14 +42,13 @@ fun CategoriaAmor(navController: NavController? = null){
     ){
         Column(modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp, 20.dp),
+            .padding(14.dp, 8.dp),
             horizontalAlignment = Alignment.CenterHorizontally) {
 
                 val controller = navController ?: rememberNavController()
                 Encabezado(navController = controller, onMenuClick = {})
 
-            
-                Spacer(modifier = Modifier.height(40.dp))
+                Spacer(modifier = Modifier.height(5.dp))
             
                 Text(
                     text = "Amor",

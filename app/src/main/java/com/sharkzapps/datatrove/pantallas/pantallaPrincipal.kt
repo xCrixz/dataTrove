@@ -38,8 +38,12 @@ import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -59,6 +63,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.sharkzapps.datatrove.ui.theme.abrilFamily
 import com.sharkzapps.datatrove.ui.theme.garamondFamily
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
@@ -205,12 +210,21 @@ fun Encabezado(navController: NavController, onMenuClick: () -> Unit){
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry?.destination?.route
 
+    var botonHabilitado by remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        delay(800)
+        botonHabilitado = true
+
+    }
+
     Column(modifier = Modifier
         .fillMaxWidth()
         .padding(top = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally) {
             Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                 IconButton(onClick =  {
+                    if (!botonHabilitado) return@IconButton
                     if (currentRoute == "principal"){
                         onMenuClick()
                     } else { navController.popBackStack() }
