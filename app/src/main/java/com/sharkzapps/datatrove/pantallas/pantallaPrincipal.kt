@@ -71,6 +71,7 @@ fun PantallaPrincipal(navController: NavController? = null){
         val controller = navController ?: rememberNavController()
         val drawerState = rememberDrawerState(DrawerValue.Closed)
         val scope = rememberCoroutineScope()
+        var bloqueoClick by remember { mutableStateOf(false) }
 
         ModalNavigationDrawer(
             drawerContent = { ContenidoMenuLateral() },
@@ -90,7 +91,15 @@ fun PantallaPrincipal(navController: NavController? = null){
             ) {
                 ZonaScrollable(onMenuClick = {
                     scope.launch { drawerState.open() } },
-                    navController = controller
+                    navController = controller,
+                    bloqueoClick = bloqueoClick,
+                    onBloquearClick = { bloqueoClick = true},
+                    onDesbloquearClick = {
+                        scope.launch {
+                            delay(700L)
+                            bloqueoClick = false
+                        }
+                    }
                     )
                 FloatingActionButton(onClick = { /*TODO*/ }, containerColor = Color.Transparent,
                     elevation = FloatingActionButtonDefaults.elevation(defaultElevation = 0.dp),
@@ -213,7 +222,7 @@ fun Encabezado(navController: NavController, onMenuClick: () -> Unit){
     var botonHabilitado by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
-        delay(800)
+        delay(400L)
         botonHabilitado = true
 
     }
@@ -254,7 +263,11 @@ fun Encabezado(navController: NavController, onMenuClick: () -> Unit){
 
 
 @Composable
-fun ZonaScrollable(onMenuClick: () -> Unit, navController: NavController?){
+fun ZonaScrollable(onMenuClick: () -> Unit,
+                   navController: NavController?,
+                   bloqueoClick: Boolean,
+                   onBloquearClick: () -> Unit,
+                   onDesbloquearClick: () -> Unit){
     LazyColumn(
         modifier = Modifier
             .fillMaxWidth()
@@ -262,15 +275,18 @@ fun ZonaScrollable(onMenuClick: () -> Unit, navController: NavController?){
         contentPadding = PaddingValues(horizontal = 10.dp, vertical = 8.dp)
     ) {
         item { Encabezado(navController = navController!!,onMenuClick = onMenuClick) }
-        item { SeccionPopulares(navController!!) }
-        item { SeccionCuriosos(navController!!) }
-        item { SeccionLigeros(navController!!) }
-        item { SeccionOtros(navController!!) }
+        item { SeccionPopulares(navController!!, bloqueoClick, onBloquearClick, onDesbloquearClick) }
+        item { SeccionCuriosos(navController!!, bloqueoClick, onBloquearClick, onDesbloquearClick) }
+        item { SeccionLigeros(navController!!, bloqueoClick, onBloquearClick, onDesbloquearClick) }
+        item { SeccionOtros(navController!!, bloqueoClick, onBloquearClick, onDesbloquearClick) }
     }
 }
 
 @Composable
-fun SeccionPopulares(navController: NavController) {
+fun SeccionPopulares(navController: NavController,
+                     bloqueoClick: Boolean,
+                     onBloquearClick: () -> Unit,
+                     onDesbloquearClick: () -> Unit) {
     Column {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(text = "Populares ", fontSize = 35.sp, style = TextStyle(fontFamily = garamondFamily, fontWeight = FontWeight.Black))
@@ -284,19 +300,43 @@ fun SeccionPopulares(navController: NavController) {
         )
         Spacer(modifier = Modifier.height(30.dp))
         FlowRow(modifier = Modifier.padding(vertical = 15.dp, horizontal = 6.dp)) {
-            TarjetaCategoria(texto = "Am   r", colorFondo = Color(0xFFFF6B81), emojiTexto = "❤\uFE0F", emojiSuperior = "\uD83D\uDCCD", DpOffset(13.2.dp, (3).dp), 14.sp, onClick = {navController.navigate("categoria_amor")})
+            TarjetaCategoria(texto = "Am   r", colorFondo = Color(0xFFFF6B81), emojiTexto = "❤\uFE0F", emojiSuperior = "\uD83D\uDCCD",
+                DpOffset(13.2.dp, (3).dp), 14.sp, bloqueado = bloqueoClick, onClick = {
+                    onBloquearClick()
+                    navController.navigate("categoria_amor")
+                    onDesbloquearClick()})
             Spacer(modifier = Modifier.width(7.5.dp))
-            TarjetaCategoria(texto = "Tecnología", colorFondo = Color(0xFF4D96FF), emojiTexto = "\uD83E\uDD16", emojiSuperior = "\uD83D\uDCCD", DpOffset(37.dp, (-48.5).dp), 26.sp, onClick = { navController.navigate("categoria_tecnologia") })
+            TarjetaCategoria(texto = "Tecnología", colorFondo = Color(0xFF4D96FF), emojiTexto = "\uD83E\uDD16", emojiSuperior = "\uD83D\uDCCD",
+                DpOffset(37.dp, (-48.5).dp), 26.sp, bloqueado = bloqueoClick, onClick = {
+                    onBloquearClick()
+                    navController.navigate("categoria_tecnologia")
+                    onDesbloquearClick()})
         }
         FlowRow(modifier = Modifier.padding(vertical = 15.dp, horizontal = 6.dp)) {
-            TarjetaCategoria(texto = "Ciencia", colorFondo = Color(0xFF00B4D8), emojiTexto = "⚗\uFE0F", emojiSuperior = "\uD83D\uDCCD", DpOffset((-37).dp, (-47.5).dp), 26.sp, onClick = { navController.navigate("categoria_ciencia") })
+            TarjetaCategoria(texto = "Ciencia", colorFondo = Color(0xFF00B4D8), emojiTexto = "⚗\uFE0F", emojiSuperior = "\uD83D\uDCCD",
+                DpOffset((-37).dp, (-47.5).dp), 26.sp, bloqueado = bloqueoClick, onClick = {
+                    onBloquearClick()
+                    navController.navigate("categoria_ciencia")
+                    onDesbloquearClick()})
             Spacer(modifier = Modifier.width(7.5.dp))
-            TarjetaCategoria(texto = "Historia", colorFondo = Color(0xFFF4A261), emojiTexto = "\uD83D\uDCDC", emojiSuperior = "\uD83D\uDCCD", DpOffset((-67).dp, 30.dp), 26.sp, onClick = { navController.navigate("categoria_historia") })
+            TarjetaCategoria(texto = "Historia", colorFondo = Color(0xFFF4A261), emojiTexto = "\uD83D\uDCDC", emojiSuperior = "\uD83D\uDCCD",
+                DpOffset((-67).dp, 30.dp), 26.sp, bloqueado = bloqueoClick, onClick = {
+                    onBloquearClick()
+                    navController.navigate("categoria_historia")
+                    onDesbloquearClick()})
         }
         FlowRow(modifier = Modifier.padding(vertical = 15.dp, horizontal = 6.dp)) {
-            TarjetaCategoria(texto = "Animales", colorFondo = Color(0xFF8AC926), emojiTexto = "\uD83D\uDC36", emojiSuperior = "\uD83D\uDCCD", DpOffset((-12.25).dp, (-8.5).dp), 13.sp, onClick = { navController.navigate("categoria_animales") })
+            TarjetaCategoria(texto = "Animales", colorFondo = Color(0xFF8AC926), emojiTexto = "\uD83D\uDC36", emojiSuperior = "\uD83D\uDCCD",
+                DpOffset((-12.25).dp, (-8.5).dp), 13.sp, bloqueado = bloqueoClick, onClick = {
+                    onBloquearClick()
+                    navController.navigate("categoria_animales")
+                    onDesbloquearClick()})
             Spacer(modifier = Modifier.width(7.5.dp))
-            TarjetaCategoria(texto = "Psicología", colorFondo = Color(0xFF9D4EDD), emojiTexto = "\uD83E\uDDE0", emojiSuperior = "\uD83D\uDCCD", DpOffset(52.5.dp, (-19).dp), 22.sp, onClick = { navController.navigate("categoria_psicologia") })
+            TarjetaCategoria(texto = "Psicología", colorFondo = Color(0xFF9D4EDD), emojiTexto = "\uD83E\uDDE0", emojiSuperior = "\uD83D\uDCCD",
+                DpOffset(52.5.dp, (-19).dp), 22.sp, bloqueado = bloqueoClick, onClick = {
+                    onBloquearClick()
+                    navController.navigate("categoria_psicologia")
+                    onDesbloquearClick()})
         }
         FlowRow(
             modifier = Modifier
@@ -304,14 +344,21 @@ fun SeccionPopulares(navController: NavController) {
                 .padding(vertical = 15.dp, horizontal = 20.dp),
             horizontalArrangement = Arrangement.Center
         ) {
-            TarjetaCategoria(texto = "Cultura\nGeneral", colorFondo = Color(0xFF5C80BC), emojiTexto = "\uD83C\uDF0D", emojiSuperior = "\uD83D\uDCCD", DpOffset(62.dp, (-30).dp), 26.sp, onClick = { navController.navigate("categoria_cgeneral") })
+            TarjetaCategoria(texto = "Cultura\nGeneral", colorFondo = Color(0xFF5C80BC), emojiTexto = "\uD83C\uDF0D", emojiSuperior = "\uD83D\uDCCD",
+                DpOffset(62.dp, (-30).dp), 26.sp, bloqueado = bloqueoClick, onClick = {
+                    onBloquearClick()
+                    navController.navigate("categoria_cgeneral")
+                    onDesbloquearClick()})
         }
         Spacer(modifier = Modifier.size(30.dp))
     }
 }
 
 @Composable
-fun SeccionCuriosos(navController: NavController) {
+fun SeccionCuriosos(navController: NavController,
+                    bloqueoClick: Boolean,
+                    onBloquearClick: () -> Unit,
+                    onDesbloquearClick: () -> Unit) {
     Column {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(text = "Curiosos ", fontSize = 35.sp, style = TextStyle(fontFamily = garamondFamily, fontWeight = FontWeight.Black))
@@ -325,28 +372,51 @@ fun SeccionCuriosos(navController: NavController) {
         )
         Spacer(modifier = Modifier.height(30.dp))
         FlowRow(modifier = Modifier.padding(vertical = 15.dp, horizontal = 6.dp)) {
-            TarjetaCategoria(texto = "Arte", colorFondo = Color(0xFFE07A5F), emojiTexto = "\uD83C\uDFA8", emojiSuperior = "\uD83D\uDCCD", DpOffset((-65).dp, 32.dp), 26.sp, onClick = { navController.navigate("categoria_arte") })
+            TarjetaCategoria(texto = "Arte", colorFondo = Color(0xFFE07A5F), emojiTexto = "\uD83C\uDFA8", emojiSuperior = "\uD83D\uDCCD",
+                DpOffset((-65).dp, 32.dp), 26.sp, bloqueado = bloqueoClick, onClick = {
+                    onBloquearClick()
+                    navController.navigate("categoria_arte")
+                    onDesbloquearClick()})
             Spacer(modifier = Modifier.width(7.5.dp))
-            TarjetaCategoria(texto = "Misterios", colorFondo = Color(0xFFD5C7BC), emojiTexto = "\uD83D\uDEF8", emojiSuperior = "\uD83D\uDCCD", DpOffset(45.dp, (-51).dp), 26.sp, onClick = { navController.navigate("categoria_misterios") })
+            TarjetaCategoria(texto = "Misterios", colorFondo = Color(0xFFD5C7BC), emojiTexto = "\uD83D\uDEF8", emojiSuperior = "\uD83D\uDCCD",
+                DpOffset(45.dp, (-51).dp), 26.sp, bloqueado = bloqueoClick , onClick = {
+                    onBloquearClick()
+                    navController.navigate("categoria_misterios")
+                    onDesbloquearClick()})
         }
         FlowRow(modifier = Modifier.padding(vertical = 15.dp, horizontal = 6.dp)) {
-            TarjetaCategoria(texto = "Idiomas", colorFondo = Color(0xFFFF9F1C), emojiTexto = "\uD83D\uDDE3\uFE0F", emojiSuperior = "\uD83D\uDCCD", DpOffset(69.dp, (-33).dp), 24.sp, onClick = { navController.navigate("categoria_idiomas") })
+            TarjetaCategoria(texto = "Idiomas", colorFondo = Color(0xFFFF9F1C), emojiTexto = "\uD83D\uDDE3\uFE0F", emojiSuperior = "\uD83D\uDCCD",
+                DpOffset(69.dp, (-33).dp), 24.sp, bloqueado = bloqueoClick, onClick = {
+                    onBloquearClick()
+                    navController.navigate("categoria_idiomas")
+                    onDesbloquearClick()})
             Spacer(modifier = Modifier.width(7.5.dp))
-            TarjetaCategoria(texto = "Espacio", colorFondo = Color(0xFF559AF0), emojiTexto = "\uD83D\uDE80", emojiSuperior = "\uD83D\uDCCD", DpOffset(50.dp, 17.dp), 26.sp, onClick = { navController.navigate("categoria_espacio") })
+            TarjetaCategoria(texto = "Espacio", colorFondo = Color(0xFF559AF0), emojiTexto = "\uD83D\uDE80", emojiSuperior = "\uD83D\uDCCD",
+                DpOffset(50.dp, 17.dp), 26.sp, bloqueado = bloqueoClick, onClick = {
+                    onBloquearClick()
+                    navController.navigate("categoria_espacio")
+                    onDesbloquearClick()})
         }
         FlowRow(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 15.dp, horizontal = 20.dp),
             horizontalArrangement = Arrangement.Center) {
-            TarjetaCategoria(texto = "Inventos", colorFondo = Color(0xFFFFBE0B), emojiTexto = "\uD83D\uDD2C", emojiSuperior = "\uD83D\uDCCD", DpOffset(50.dp,20.dp ), 26.sp, onClick = { navController.navigate("categoria_inventos") })
+            TarjetaCategoria(texto = "Inventos", colorFondo = Color(0xFFFFBE0B), emojiTexto = "\uD83D\uDD2C", emojiSuperior = "\uD83D\uDCCD",
+                DpOffset(50.dp,20.dp ), 26.sp, bloqueado = bloqueoClick, onClick = {
+                    onBloquearClick()
+                    navController.navigate("categoria_inventos")
+                    onDesbloquearClick()})
             Spacer(modifier = Modifier.height(30.dp))
         }
     }
 }
 
 @Composable
-fun SeccionLigeros(navController: NavController) {
+fun SeccionLigeros(navController: NavController,
+                   bloqueoClick: Boolean,
+                   onBloquearClick: () -> Unit,
+                   onDesbloquearClick: () -> Unit) {
     Column {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(text = "Ligeros ", fontSize = 35.sp, style = TextStyle(fontFamily = garamondFamily, fontWeight = FontWeight.Black))
@@ -358,9 +428,17 @@ fun SeccionLigeros(navController: NavController) {
             thickness = 3.5.dp, color = Color.Black)
         Spacer(modifier = Modifier.height(30.dp))
         FlowRow(modifier = Modifier.padding(vertical = 15.dp, horizontal = 6.dp)) {
-            TarjetaCategoria(texto = "Videojuegos", colorFondo = Color(0xFFA92375), emojiTexto = "\uD83C\uDFAE", emojiSuperior = "\uD83D\uDCCD", DpOffset((-62).dp, (-29.5).dp), 26.sp, onClick = { navController.navigate("categoria_videoj") })
+            TarjetaCategoria(texto = "Videojuegos", colorFondo = Color(0xFFA92375), emojiTexto = "\uD83C\uDFAE", emojiSuperior = "\uD83D\uDCCD",
+                DpOffset((-62).dp, (-29.5).dp), 26.sp, bloqueado = bloqueoClick, onClick = {
+                    onBloquearClick()
+                    navController.navigate("categoria_videoj")
+                    onDesbloquearClick()})
             Spacer(modifier = Modifier.width(7.5.dp))
-            TarjetaCategoria(texto = "Comida", colorFondo = Color(0xFFE13B3B), emojiTexto = "\uD83C\uDF54", emojiSuperior = "\uD83D\uDCCD", DpOffset(65.5.dp, (-33.5).dp), 26.sp, onClick = { navController.navigate("categoria_comida") })
+            TarjetaCategoria(texto = "Comida", colorFondo = Color(0xFFE13B3B), emojiTexto = "\uD83C\uDF54", emojiSuperior = "\uD83D\uDCCD",
+                DpOffset(65.5.dp, (-33.5).dp), 26.sp, bloqueado = bloqueoClick, onClick = {
+                    onBloquearClick()
+                    navController.navigate("categoria_comida")
+                    onDesbloquearClick()})
         }
         FlowRow(
             modifier = Modifier
@@ -368,14 +446,21 @@ fun SeccionLigeros(navController: NavController) {
                 .padding(vertical = 15.dp, horizontal = 20.dp),
             horizontalArrangement = Arrangement.Center
         ) {
-            TarjetaCategoria(texto = "Marcas", colorFondo = Color(0xFF3A86FF), emojiTexto = "\uD83D\uDC8E", emojiSuperior = "\uD83D\uDCCD", DpOffset(68.dp, (-29.5).dp), 26.sp, onClick = { navController.navigate("categoria_marcas") })
+            TarjetaCategoria(texto = "Marcas", colorFondo = Color(0xFF3A86FF), emojiTexto = "\uD83D\uDC8E", emojiSuperior = "\uD83D\uDCCD",
+                DpOffset(68.dp, (-29.5).dp), 26.sp, bloqueado = bloqueoClick, onClick = {
+                    onBloquearClick()
+                    navController.navigate("categoria_marcas")
+                    onDesbloquearClick()})
             Spacer(modifier = Modifier.height(30.dp))
         }
     }
 }
 
 @Composable
-fun SeccionOtros(navController: NavController) {
+fun SeccionOtros(navController: NavController,
+                 bloqueoClick: Boolean,
+                 onBloquearClick: () -> Unit,
+                 onDesbloquearClick: () -> Unit) {
     Column {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(text = "Otros ", fontSize = 35.sp, style = TextStyle(fontFamily = garamondFamily, fontWeight = FontWeight.Black))
@@ -389,9 +474,17 @@ fun SeccionOtros(navController: NavController) {
         )
         Spacer(modifier = Modifier.height(30.dp))
         FlowRow(modifier = Modifier.padding(vertical = 15.dp, horizontal = 6.dp)) {
-            TarjetaCategoria(texto = "Útiles", colorFondo = Color(0xFF2A9D8F), emojiTexto = "\uD83D\uDEE0\uFE0F", emojiSuperior = "\uD83D\uDCCD", DpOffset((-67).dp, (-33).dp), 26.sp, onClick = { navController.navigate("categoria_utiles") })
+            TarjetaCategoria(texto = "Útiles", colorFondo = Color(0xFF2A9D8F), emojiTexto = "\uD83D\uDEE0\uFE0F", emojiSuperior = "\uD83D\uDCCD",
+                DpOffset((-67).dp, (-33).dp), 26.sp, bloqueado = bloqueoClick, onClick = {
+                    onBloquearClick()
+                    navController.navigate("categoria_utiles")
+                    onDesbloquearClick()})
             Spacer(modifier = Modifier.width(7.5.dp))
-            TarjetaCategoria(texto = "Divertidos", colorFondo = Color(0xFFF72585), emojiTexto = "\uD83E\uDD2A", emojiSuperior = "\uD83D\uDCCD", DpOffset((-64.5).dp, (-32).dp), 26.sp, onClick = { navController.navigate("categoria_divertidos") })
+            TarjetaCategoria(texto = "Divertidos", colorFondo = Color(0xFFF72585), emojiTexto = "\uD83E\uDD2A", emojiSuperior = "\uD83D\uDCCD",
+                DpOffset((-64.5).dp, (-32).dp), 26.sp, bloqueado = bloqueoClick, onClick = {
+                    onBloquearClick()
+                    navController.navigate("categoria_divertidos")
+                onDesbloquearClick()})
             Spacer(modifier = Modifier.size(30.dp))
         }
         Spacer(modifier = Modifier.size(50.dp))
@@ -406,6 +499,7 @@ fun TarjetaCategoria(
     emojiSuperior: String,
     emojiTextoOffSet: DpOffset = DpOffset(4.dp, (-4).dp),
     sizeEmojiTexto: TextUnit = 22.sp,
+    bloqueado: Boolean = false,
     onClick: () -> Unit = {}
 
 ) {
@@ -414,7 +508,9 @@ fun TarjetaCategoria(
             .padding(8.dp)
             .width(140.dp)
             .height(70.dp)
-            .clickable { onClick() }
+            .clickable(enabled = !bloqueado) {
+                onClick()
+            }
     ) {
         // Caja base (tarjeta) con degradado
         Box(
