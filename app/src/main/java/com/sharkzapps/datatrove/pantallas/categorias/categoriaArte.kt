@@ -42,7 +42,9 @@ fun CategoriaArte(navController: NavController? = null) {
             )
     ) {
         Column(
-            modifier = Modifier.fillMaxSize().padding(14.dp, 8.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(14.dp, 8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             val controller = navController ?: rememberNavController()
@@ -57,11 +59,21 @@ fun CategoriaArte(navController: NavController? = null) {
                 textAlign = TextAlign.Start
             )
 
-            HorizontalDivider(modifier = Modifier.height(5.dp).width(230.dp).align(Alignment.Start),
+            HorizontalDivider(modifier = Modifier
+                .height(5.dp)
+                .width(230.dp)
+                .align(Alignment.Start),
                 thickness = 3.5.dp, color = Color.Black)
+            
+                Spacer(modifier = Modifier.height(50.dp))
+            
+
+            
         }
     }
 }
+
+
 
 @Preview(showBackground = true, apiLevel = 34)
 @Composable

@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -25,10 +26,13 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.sharkzapps.datatrove.pantallas.Encabezado
+import com.sharkzapps.datatrove.pantallas.datos.datosAmor
 import com.sharkzapps.datatrove.ui.theme.garamondFamily
 
 @Composable
 fun CategoriaAmor(navController: NavController? = null){
+
+
     Box(modifier = Modifier
         .fillMaxSize()
         .background(
@@ -64,8 +68,25 @@ fun CategoriaAmor(navController: NavController? = null){
                     .width(230.dp)
                     .align(Alignment.Start),
                     thickness = 3.5.dp, color = Color.Black)
+
+                Spacer(modifier = Modifier.height(75.dp))
+
+                DatoAleatorio(datos = datosAmor)
         }
     }
+}
+
+@Composable
+fun DatoAleatorio(datos: List<String>){
+    val dato = remember { datos.random() }
+    
+    Text(text = dato,
+        fontSize = 45.sp, style = TextStyle(fontFamily = garamondFamily),
+        color = Color.Black, fontWeight = FontWeight.ExtraBold, textAlign = TextAlign.Center
+        , modifier = Modifier
+            .padding(horizontal = 16.dp)
+            .fillMaxWidth()
+    )
 }
 
 @Preview(showBackground = true, apiLevel = 34)

@@ -142,7 +142,7 @@ fun Opciones(){
     Text(text = "Notificaciones", fontSize = 22.sp, style = TextStyle(fontFamily = garamondFamily,
         fontWeight = FontWeight.ExtraBold), modifier = Modifier.clickable {  })
     Spacer(modifier = Modifier.size(14.dp))
-    Text(text = "Favortitos", fontSize = 22.sp, style = TextStyle(fontFamily = garamondFamily,
+    Text(text = "Favoritos", fontSize = 22.sp, style = TextStyle(fontFamily = garamondFamily,
         fontWeight = FontWeight.ExtraBold), modifier = Modifier.clickable {  })
     Spacer(modifier = Modifier.size(14.dp))
     Text(text = "Idiomas", fontSize = 22.sp, style = TextStyle(fontFamily = garamondFamily,
