@@ -69,7 +69,7 @@ fun CategoriaAmor(navController: NavController? = null){
                     .align(Alignment.Start),
                     thickness = 3.5.dp, color = Color.Black)
 
-                Spacer(modifier = Modifier.height(75.dp))
+                Spacer(modifier = Modifier.height(80.dp))
 
                 DatoAleatorio(datos = datosAmor)
         }
@@ -81,7 +81,7 @@ fun DatoAleatorio(datos: List<String>){
     val dato = remember { datos.random() }
     
     Text(text = dato,
-        fontSize = 45.sp, style = TextStyle(fontFamily = garamondFamily),
+        fontSize = 35.sp, style = TextStyle(fontFamily = garamondFamily),
         color = Color.Black, fontWeight = FontWeight.ExtraBold, textAlign = TextAlign.Center
         , modifier = Modifier
             .padding(horizontal = 16.dp)
