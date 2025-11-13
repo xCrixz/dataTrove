@@ -26,6 +26,7 @@ import com.sharkzapps.datatrove.ui.theme.garamondFamily
 import com.sharkzapps.datatrove.pantallas.Encabezado
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.sharkzapps.datatrove.pantallas.datos.datosArte
 
 @Composable
 fun CategoriaArte(navController: NavController? = null) {
@@ -65,9 +66,9 @@ fun CategoriaArte(navController: NavController? = null) {
                 .align(Alignment.Start),
                 thickness = 3.5.dp, color = Color.Black)
             
-                Spacer(modifier = Modifier.height(50.dp))
+                Spacer(modifier = Modifier.height(80.dp))
             
-
+                DatoAleatorio(datos = datosArte)
             
         }
     }
