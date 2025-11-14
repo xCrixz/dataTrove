@@ -21,13 +21,12 @@ const val dato13CGeneral = "En Escocia existen más de 400 palabras para referir
 const val dato14CGeneral = "El fuego no tiene sombra."
 const val dato15CGeneral = "El 70% del oxígeno que respiramos proviene del océano."
 const val dato16CGeneral = "El papel higiénico se inventó en China hace más de 1.500 años."
-const val dato17CGeneral = "El ADN humano podría estirarse de la Tierra al Sol " +
-            "unas 600 veces si se desenrollara completamente."
+const val dato17CGeneral = "El corazón humano bombea unos 7.500 litros de sangre al día."
 const val dato18CGeneral = "En Islandia no hay mosquitos."
 const val dato19CGeneral = "El primer teléfono móvil pesaba más de un kilo."
 const val dato20CGeneral = "El cuerpo humano tiene 206 huesos, pero al nacer tenemos más de 300."
 const val dato21CGeneral = "El himno nacional más corto del mundo es el de Japón."
-const val dato22CGeneral = "Las nubes pueden pesar millones de toneladas."
+const val dato22CGeneral = "El 70% del cuerpo humano es agua."
 const val dato23CGeneral = "El país más pequeño del mundo es el Vaticano."
 const val dato24CGeneral = "En promedio, el ser humano pasa un tercio de su vida durmiendo."
 const val dato25CGeneral = "El mar Muerto se llama así porque casi ningún " +
