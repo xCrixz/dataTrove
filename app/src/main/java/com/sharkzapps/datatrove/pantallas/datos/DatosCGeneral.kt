@@ -40,7 +40,8 @@ const val dato31CGeneral = "Hay más bacterias en la boca humana que personas en
 const val dato32CGeneral = "El idioma más hablado del mundo es el inglés."
 const val dato33CGeneral = "La electricidad se mueve a casi la velocidad de la luz."
 const val dato34CGeneral = "En Noruega se puede ver el sol a medianoche durante el verano."
-const val dato35CGeneral = "En Marte el atardecer es azul."
+const val dato35CGeneral = "En promedio, una persona come alrededor de 35 toneladas " +
+            "de comida en su vida."
 const val dato36CGeneral = "El ajedrez fue inventado en India hace más de 1.500 años."
 const val dato37CGeneral = "El cerebro humano pesa unos 1.400 gramos."
 const val dato38CGeneral = "La Luna se aleja de la Tierra unos 3,8 cm cada año."
