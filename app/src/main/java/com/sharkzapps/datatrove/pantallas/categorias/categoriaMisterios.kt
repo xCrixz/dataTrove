@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import com.sharkzapps.datatrove.pantallas.Encabezado
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.sharkzapps.datatrove.pantallas.datos.datosMisterios
 
 @Composable
 fun CategoriaMisterios(navController: NavController? = null) {
@@ -42,7 +43,9 @@ fun CategoriaMisterios(navController: NavController? = null) {
             )
     ) {
         Column(
-            modifier = Modifier.fillMaxSize().padding(14.dp, 8.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(14.dp, 8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             val controller = navController ?: rememberNavController()
@@ -52,11 +55,15 @@ fun CategoriaMisterios(navController: NavController? = null) {
                 fontSize = 35.sp,
                 style = TextStyle(fontFamily = garamondFamily, fontWeight = FontWeight.Black),
                 modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Start)
-            HorizontalDivider(modifier = Modifier.height(5.dp)
+            HorizontalDivider(modifier = Modifier
+                .height(5.dp)
                 .width(230.dp)
                 .align(Alignment.Start),
                 thickness = 3.5.dp,
                 color = Color.Black)
+            
+            Spacer(modifier = Modifier.height(80.dp))
+            DatoAleatorio(datos = datosMisterios)
         }
     }
 }
