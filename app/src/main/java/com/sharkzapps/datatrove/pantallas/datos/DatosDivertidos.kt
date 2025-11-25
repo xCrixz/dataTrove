@@ -4,7 +4,7 @@ const val dato1Divertidos = "Los perezosos pueden aguantar la respiración más 
             "delfines, hasta 40 minutos."
 const val dato2Divertidos = "En 2016, un hombre llamó a la policía porque su gato se sentó en su pizza."
 const val dato3Divertidos = "Existe un tipo de medusa que puede regresar a ser bebé cuando envejece."
-const val dato4Divertidos = "Las tortugas pueden respirar por el trasero… literalmente."
+const val dato4Divertidos = "Las tortugas pueden respirar por el trasero."
 const val dato5Divertidos = "En Japón existe un museo dedicado exclusivamente a los fideos instantáneos."
 const val dato6Divertidos = "Los astronautas del Apolo 11 tenían que firmar un formulario de aduana " +
             "al regresar a la Tierra."

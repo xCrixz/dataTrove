@@ -1,15 +1,23 @@
 package com.sharkzapps.datatrove.pantallas.categorias
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -69,9 +77,18 @@ fun CategoriaAmor(navController: NavController? = null){
                     .align(Alignment.Start),
                     thickness = 3.5.dp, color = Color.Black)
 
-                Spacer(modifier = Modifier.height(80.dp))
-
+                Spacer(modifier = Modifier.height(45.dp))
                 DatoAleatorio(datos = datosAmor)
+                Spacer(modifier = Modifier.height(50.dp))
+
+                HorizontalDivider(modifier = Modifier
+                    .height(5.dp)
+                    .width(230.dp)
+                    .align(Alignment.End),
+                    thickness = 3.5.dp, color = Color.Black)
+
+                BotonesFavCom(onCompartirClick = {},
+                    onFavoritoClick = {})
         }
     }
 }
@@ -81,12 +98,35 @@ fun DatoAleatorio(datos: List<String>){
     val dato = remember { datos.random() }
     
     Text(text = dato,
-        fontSize = 35.sp, style = TextStyle(fontFamily = garamondFamily),
+        fontSize = 30.sp, style = TextStyle(fontFamily = garamondFamily),
         color = Color.Black, fontWeight = FontWeight.ExtraBold, textAlign = TextAlign.Center
         , modifier = Modifier
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = 12.dp)
             .fillMaxWidth()
     )
+}
+
+@Composable
+fun BotonesFavCom(onFavoritoClick: () -> Unit = {}, onCompartirClick: () -> Unit = {}){
+    
+    Spacer(modifier = Modifier.height(15.dp))
+    Row(modifier = Modifier
+        .fillMaxWidth()
+        .padding(end = 20.dp), horizontalArrangement = Arrangement.End,
+        verticalAlignment = Alignment.CenterVertically) {
+
+        IconButton(onClick = onFavoritoClick) {
+            Icon(imageVector = Icons.Default.FavoriteBorder,
+                contentDescription = "Favorito", Modifier.size(40.dp) )
+        }
+
+        Spacer(modifier = Modifier.width(5.dp))
+        
+        IconButton(onClick = onCompartirClick) {
+            Icon(imageVector = Icons.Default.Share,
+                contentDescription = "Compartir", Modifier.size(40.dp))
+        }
+    }
 }
 
 @Preview(showBackground = true, apiLevel = 34)

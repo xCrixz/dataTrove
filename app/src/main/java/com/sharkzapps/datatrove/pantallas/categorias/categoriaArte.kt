@@ -66,9 +66,16 @@ fun CategoriaArte(navController: NavController? = null) {
                 .align(Alignment.Start),
                 thickness = 3.5.dp, color = Color.Black)
             
-                Spacer(modifier = Modifier.height(80.dp))
-            
+                Spacer(modifier = Modifier.height(45.dp))
                 DatoAleatorio(datos = datosArte)
+                Spacer(modifier = Modifier.height(50.dp))
+
+                HorizontalDivider(modifier = Modifier
+                    .height(5.dp).width(230.dp).align(Alignment.End),
+                    thickness = 3.5.dp, color = Color.Black)
+
+            BotonesFavCom(onCompartirClick = {},
+                onFavoritoClick = {})
             
         }
     }

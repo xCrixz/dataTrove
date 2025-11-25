@@ -19,21 +19,20 @@ const val dato9Misterios = "Las esferas de piedra de Costa Rica son perfectament
 const val dato10Misterios = "El Puente Overtoun en Escocia ha hecho que cientos de perros " +
             "salten sin explicación."
 const val dato11Misterios = "La esfera Betz actuaba como si estuviera viva, moviéndose sola por la casa."
-const val dato12Misterios = "El monstruo del Lago Ness sigue sin ser desmentido definitivamente " +
-            "pese a análisis modernos."
+const val dato12Misterios = "El monstruo del Lago Ness sigue sin ser desmentido definitivamente."
 const val dato13Misterios = "Los cráneos alargados de Paracas tienen características biológicas " +
             "difíciles de explicar."
 const val dato14Misterios = "Las Luces de Marfa, en Texas, aparecen desde 1880 sin causa científica clara."
 const val dato15Misterios = "El objeto Oumuamua, que atravesó nuestro sistema solar en 2017, " +
             "se comportaba como una nave sin motor."
 const val dato16Misterios = "El sonido \"Bloop\", fue tan fuerte que parecía provenir de una " +
-            "criatura gigantesca… pero nunca se halló."
+            "criatura gigantesca."
 const val dato17Misterios = "El Triángulo del Dragón en Japón tiene desapariciones tan extrañas como " +
             "el Triángulo de las Bermudas."
 const val dato18Misterios = "El monolito metálico de Utah apareció de la nada en 2020 y desapareció " +
             "igual de misteriosamente."
 const val dato19Misterios = "El caso del Hombre de Somerton, hallado muerto con un código en el bolsillo, " +
-            "sigue sin resolverse desde 1948."
+            "sigue sin resolverse."
 const val dato20Misterios = "En Turquía existe una ciudad subterránea llamada Derinkuyu, con " +
             "capacidad para 20.000 personas."
 const val dato21Misterios = "El misterio del vuelo MH370 es una de las desapariciones modernas más " +
@@ -61,17 +60,16 @@ const val dato36Misterios = "El manuscrito Rohonc, igual que el Voynich, está e
             "y alfabeto desconocidos."
 const val dato37Misterios = "En la isla de Pascua, muchos moáis tienen cuerpos completos enterrados bajo tierra."
 const val dato38Misterios = "En Noruega, las luces de Hessdalen aparecen desde hace décadas con patrones inteligentes."
-const val dato39Misterios = "A viajeros en Escocia se les aparece un pueblo fantasma con arquitectura victoriana " +
-            "que desaparece al intentar acercarse."
+const val dato39Misterios = "A viajeros en Escocia se les aparece un pueblo fantasma que desaparece al " +
+            "intentar acercarse."
 const val dato40Misterios = "El misterio de Taured cuenta la historia de un hombre que llegó con un pasaporte " +
             "de un país inexistente."
 const val dato41Misterios = "En Perú, las líneas de Nazca fueron diseñadas para verse solo desde el aire, " +
             "pero no se sabe el propósito."
 const val dato42Misterios = "El mar de los Sargazos ha sido escenario de múltiples desapariciones desde hace siglos."
-const val dato43Misterios = "Los bosques torcidos de Polonia tienen más de 400 árboles con curvaturas idénticas " +
-            "y nadie sabe por qué crecieron así."
+const val dato43Misterios = "Los bosques torcidos de Polonia tienen más de 400 árboles con curvaturas idénticas."
 const val dato44Misterios = "En México, la Isla de las Muñecas presenta muñecas que supuestamente se mueven y " +
-            "cambian de posición sin intervención humana."
+            "cambian de posición."
 const val dato45Misterios = "En Italia, la Cripta de los Capuchinos tiene cuerpos momificados tan bien " +
             "conservados que parecen dormidos."
 const val dato46Misterios = "Los círculos de hadas de Namibia son formaciones perfectas en el suelo cuyo " +

@@ -7,13 +7,13 @@ const val dato2Arte = "En algunas pinturas clásicas, la madre del artista apare
 const val dato3Arte = "Vincent van Gogh solo vendió un cuadro en vida: The Red Vineyard."
 const val dato4Arte = "Pablo Picasso produjo alrededor de 50,000 obras a lo largo de su vida."
 const val dato5Arte = "Muchas obras famosas fueron rechazadas en su tiempo y hoy son íconos del arte."
-const val dato6Arte = "Los materiales artísticos tradicionales evolucionaron: antes sólo óleo y lienzo, " +
-            "hoy también luz, proyección, realidad aumentada."
+const val dato6Arte = "Los materiales artísticos antes eran sólo óleo y lienzo, hoy también luz," +
+            " proyección y realidad aumentada."
 const val dato7Arte = "Los pigmentos amarillos intensos del pasado a veces provenían de la orina de vacas."
 const val dato8Arte = "Las galerías de arte modernas usan cada vez más experiencias inmersivas, " +
             "tecnología y participación del espectador."
-const val dato9Arte = "El arte puede sorprenderte porque mezcla lo absurdo, " +
-            "lo serio, lo bello y lo polémico en un solo objeto o espacio."
+const val dato9Arte = "El arte es sorprendente porque mezcla lo absurdo, serio, bello y " +
+            "polémico en un solo objeto o espacio."
 const val dato10Arte = "El color azul ultramar solía ser más valioso que el oro en la Edad Media."
 const val dato11Arte = "Leonardo da Vinci tardó más de 16 años en completar la Mona Lisa."
 const val dato12Arte = "El cuadro más robado del mundo es ‘El Retrato de un Joven’ de Rafael."
