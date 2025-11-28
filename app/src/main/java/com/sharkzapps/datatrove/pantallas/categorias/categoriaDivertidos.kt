@@ -12,6 +12,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -30,6 +34,9 @@ import com.sharkzapps.datatrove.pantallas.datos.datosDivertidos
 
 @Composable
 fun CategoriaDivertidos(navController: NavController? = null) {
+
+    var index by remember { mutableIntStateOf(0) }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -60,23 +67,30 @@ fun CategoriaDivertidos(navController: NavController? = null) {
                 textAlign = TextAlign.Start
             )
 
-            HorizontalDivider(modifier = Modifier
-                .height(5.dp)
-                .width(230.dp)
-                .align(Alignment.Start),
-                thickness = 3.5.dp, color = Color.Black)
-            
+            HorizontalDivider(
+                modifier = Modifier
+                    .height(5.dp)
+                    .width(230.dp)
+                    .align(Alignment.Start),
+                thickness = 3.5.dp, color = Color.Black
+            )
+
+            Spacer(modifier = Modifier.height(40.dp))
+            DatoAleatorio(dato = datosDivertidos[index])
             Spacer(modifier = Modifier.height(45.dp))
-            DatoAleatorio(datos = datosDivertidos)
-            Spacer(modifier = Modifier.height(50.dp))
 
-            HorizontalDivider(modifier = Modifier
-                .height(5.dp)
-                .width(230.dp)
-                .align(Alignment.End),
-                thickness = 3.5.dp, color = Color.Black)
+            HorizontalDivider(
+                modifier = Modifier
+                    .height(5.dp)
+                    .width(230.dp)
+                    .align(Alignment.End),
+                thickness = 3.5.dp, color = Color.Black
+            )
 
-            BotonesFavCom(onCompartirClick = {},
+            BotonesNavAcciones(
+                onAnteriorClick = {index = datosDivertidos.indices.random()},
+                onSiguienteClick = {index = datosDivertidos.indices.random()},
+                onCompartirClick = {},
                 onFavoritoClick = {})
         }
     }

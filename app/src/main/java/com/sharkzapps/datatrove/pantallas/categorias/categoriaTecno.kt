@@ -12,6 +12,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -30,6 +34,9 @@ import com.sharkzapps.datatrove.pantallas.datos.datosTecnologia
 
 @Composable
 fun CategoriaTecno(navController: NavController? = null) {
+
+    var index by remember { mutableIntStateOf(0) }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -63,9 +70,9 @@ fun CategoriaTecno(navController: NavController? = null) {
                 , thickness = 3.5.dp,
                 color = Color.Black)
             
+            Spacer(modifier = Modifier.height(40.dp))
+            DatoAleatorio(dato = datosTecnologia[index])
             Spacer(modifier = Modifier.height(45.dp))
-            DatoAleatorio(datos = datosTecnologia)
-            Spacer(modifier = Modifier.height(50.dp))
 
             HorizontalDivider(modifier = Modifier
                 .height(5.dp)
@@ -73,7 +80,10 @@ fun CategoriaTecno(navController: NavController? = null) {
                 .align(Alignment.End),
                 thickness = 3.5.dp, color = Color.Black)
 
-            BotonesFavCom(onCompartirClick = {},
+            BotonesNavAcciones(
+                onAnteriorClick = {index = datosTecnologia.indices.random()},
+                onSiguienteClick = {index = datosTecnologia.indices.random()},
+                onCompartirClick = {},
                 onFavoritoClick = {})
         }
     }

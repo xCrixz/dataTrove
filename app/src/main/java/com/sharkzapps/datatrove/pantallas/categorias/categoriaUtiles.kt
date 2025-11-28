@@ -12,6 +12,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -30,6 +34,9 @@ import com.sharkzapps.datatrove.pantallas.datos.datosUtiles
 
 @Composable
 fun CategoriaUtiles(navController: NavController? = null) {
+
+    var index by remember { mutableIntStateOf(0) }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -63,9 +70,9 @@ fun CategoriaUtiles(navController: NavController? = null) {
                 thickness = 3.5.dp,
                 color = Color.Black)
             
+            Spacer(modifier = Modifier.height(40.dp))
+            DatoAleatorio(dato = datosUtiles[index])
             Spacer(modifier = Modifier.height(45.dp))
-            DatoAleatorio(datos = datosUtiles)
-            Spacer(modifier = Modifier.height(50.dp))
 
             HorizontalDivider(modifier = Modifier
                 .height(5.dp)
@@ -73,7 +80,10 @@ fun CategoriaUtiles(navController: NavController? = null) {
                 .align(Alignment.End),
                 thickness = 3.5.dp, color = Color.Black)
 
-            BotonesFavCom(onCompartirClick = {},
+            BotonesNavAcciones(
+                onAnteriorClick = {index = datosUtiles.indices.random()},
+                onSiguienteClick = {index = datosUtiles.indices.random()},
+                onCompartirClick = {},
                 onFavoritoClick = {})
         }
     }

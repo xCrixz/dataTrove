@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.HorizontalDivider
@@ -20,7 +22,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -40,6 +45,7 @@ import com.sharkzapps.datatrove.ui.theme.garamondFamily
 @Composable
 fun CategoriaAmor(navController: NavController? = null){
 
+    var index by remember { mutableIntStateOf(0) }
 
     Box(modifier = Modifier
         .fillMaxSize()
@@ -77,9 +83,9 @@ fun CategoriaAmor(navController: NavController? = null){
                     .align(Alignment.Start),
                     thickness = 3.5.dp, color = Color.Black)
 
+                Spacer(modifier = Modifier.height(40.dp))
+                DatoAleatorio(dato = datosAmor[index])
                 Spacer(modifier = Modifier.height(45.dp))
-                DatoAleatorio(datos = datosAmor)
-                Spacer(modifier = Modifier.height(50.dp))
 
                 HorizontalDivider(modifier = Modifier
                     .height(5.dp)
@@ -87,16 +93,17 @@ fun CategoriaAmor(navController: NavController? = null){
                     .align(Alignment.End),
                     thickness = 3.5.dp, color = Color.Black)
 
-                BotonesFavCom(onCompartirClick = {},
+                BotonesNavAcciones(
+                    onAnteriorClick = {index = datosAmor.indices.random()},
+                    onSiguienteClick = {index = datosAmor.indices.random()},
+                    onCompartirClick = {},
                     onFavoritoClick = {})
         }
     }
 }
 
 @Composable
-fun DatoAleatorio(datos: List<String>){
-    val dato = remember { datos.random() }
-    
+fun DatoAleatorio(dato: String){
     Text(text = dato,
         fontSize = 30.sp, style = TextStyle(fontFamily = garamondFamily),
         color = Color.Black, fontWeight = FontWeight.ExtraBold, textAlign = TextAlign.Center
@@ -107,24 +114,42 @@ fun DatoAleatorio(datos: List<String>){
 }
 
 @Composable
-fun BotonesFavCom(onFavoritoClick: () -> Unit = {}, onCompartirClick: () -> Unit = {}){
+fun BotonesNavAcciones(onAnteriorClick: () -> Unit = {},
+                       onSiguienteClick: () -> Unit = {},
+                       onFavoritoClick: () -> Unit = {},
+                       onCompartirClick: () -> Unit = {}){
     
     Spacer(modifier = Modifier.height(15.dp))
     Row(modifier = Modifier
         .fillMaxWidth()
-        .padding(end = 20.dp), horizontalArrangement = Arrangement.End,
+        .padding(end = 20.dp), horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically) {
 
-        IconButton(onClick = onFavoritoClick) {
-            Icon(imageVector = Icons.Default.FavoriteBorder,
-                contentDescription = "Favorito", Modifier.size(40.dp) )
+        Row {
+            IconButton(onClick = onAnteriorClick, modifier = Modifier.size(60.dp)) {
+                Icon(imageVector = Icons.AutoMirrored.Default.KeyboardArrowLeft,
+                    contentDescription = "Anterior", modifier = Modifier.size(55.dp) )
+            }
+
+            Spacer(modifier = Modifier.width(15.dp))
+            IconButton(onClick = onSiguienteClick, modifier = Modifier.size(60.dp)) {
+                Icon(imageVector = Icons.AutoMirrored.Default.KeyboardArrowRight,
+                    contentDescription = "Siguiente", modifier = Modifier.size(55.dp) )
+            }
         }
 
-        Spacer(modifier = Modifier.width(5.dp))
-        
-        IconButton(onClick = onCompartirClick) {
-            Icon(imageVector = Icons.Default.Share,
-                contentDescription = "Compartir", Modifier.size(40.dp))
+        Row {
+            IconButton(onClick = onFavoritoClick) {
+                Icon(imageVector = Icons.Default.FavoriteBorder,
+                    contentDescription = "Favorito", Modifier.size(40.dp) )
+            }
+
+            Spacer(modifier = Modifier.width(5.dp))
+
+            IconButton(onClick = onCompartirClick) {
+                Icon(imageVector = Icons.Default.Share,
+                    contentDescription = "Compartir", Modifier.size(40.dp))
+            }
         }
     }
 }

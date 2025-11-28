@@ -23,6 +23,10 @@ import com.sharkzapps.datatrove.ui.theme.garamondFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import com.sharkzapps.datatrove.pantallas.Encabezado
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -30,6 +34,9 @@ import com.sharkzapps.datatrove.pantallas.datos.datosPsicologia
 
 @Composable
 fun CategoriaPsicologia(navController: NavController? = null) {
+
+    var index by remember { mutableIntStateOf(0) }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -63,9 +70,9 @@ fun CategoriaPsicologia(navController: NavController? = null) {
                 thickness = 3.5.dp,
                 color = Color.Black)
             
-            Spacer(modifier = Modifier.height(50.dp))
-            DatoAleatorio(datos = datosPsicologia)
-            Spacer(modifier = Modifier.height(50.dp))
+            Spacer(modifier = Modifier.height(40.dp))
+            DatoAleatorio(dato = datosPsicologia[index])
+            Spacer(modifier = Modifier.height(45.dp))
 
             HorizontalDivider(modifier = Modifier
                 .height(5.dp)
@@ -73,7 +80,10 @@ fun CategoriaPsicologia(navController: NavController? = null) {
                 .align(Alignment.End),
                 thickness = 3.5.dp, color = Color.Black)
 
-            BotonesFavCom(onCompartirClick = {},
+            BotonesNavAcciones(
+                onAnteriorClick = {index = datosPsicologia.indices.random()},
+                onSiguienteClick = {index = datosPsicologia.indices.random()},
+                onCompartirClick = {},
                 onFavoritoClick = {})
         }
     }
