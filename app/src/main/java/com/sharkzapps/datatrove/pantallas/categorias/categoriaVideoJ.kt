@@ -36,6 +36,7 @@ import com.sharkzapps.datatrove.pantallas.datos.datosVideoJuegos
 fun CategoriaVideoJ(navController: NavController? = null) {
 
     var index by remember { mutableIntStateOf(0) }
+    var direccion by remember { mutableIntStateOf(1) }
 
     Box(
         modifier = Modifier
@@ -70,7 +71,14 @@ fun CategoriaVideoJ(navController: NavController? = null) {
                 color = Color.Black)
 
             Spacer(modifier = Modifier.height(40.dp))
-            DatoAleatorio(dato = datosVideoJuegos[index])
+            DatoAleatorioSlide(dato = datosVideoJuegos[index], direccion = direccion,
+                onSwipeLeft = {
+                    direccion = 1
+                    index = datosVideoJuegos.indices.random()
+                }, onSwipeRight = {
+                    direccion = -1
+                    index = datosVideoJuegos.indices.random()
+                })
             Spacer(modifier = Modifier.height(45.dp))
 
             HorizontalDivider(modifier = Modifier
@@ -80,8 +88,10 @@ fun CategoriaVideoJ(navController: NavController? = null) {
                 thickness = 3.5.dp, color = Color.Black)
 
             BotonesNavAcciones(
-                onAnteriorClick = {index = datosVideoJuegos.indices.random()},
-                onSiguienteClick = {index = datosVideoJuegos.indices.random()},
+                onAnteriorClick = {direccion = -1
+                    index = datosVideoJuegos.indices.random()},
+                onSiguienteClick = {direccion = 1
+                    index = datosVideoJuegos.indices.random()},
                 onCompartirClick = {},
                 onFavoritoClick = {})
         }

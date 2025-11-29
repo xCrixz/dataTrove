@@ -35,6 +35,7 @@ import com.sharkzapps.datatrove.pantallas.datos.datosArte
 @Composable
 fun CategoriaArte(navController: NavController? = null) {
     var index by remember { mutableIntStateOf(0) }
+    var direccion by remember { mutableIntStateOf(1) }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -72,16 +73,27 @@ fun CategoriaArte(navController: NavController? = null) {
                 thickness = 3.5.dp, color = Color.Black)
             
                 Spacer(modifier = Modifier.height(40.dp))
-                DatoAleatorio(dato = datosArte[index])
+            DatoAleatorioSlide(dato = datosArte[index], direccion = direccion,
+                onSwipeLeft = {
+                    direccion = 1
+                    index = datosArte.indices.random()
+                }, onSwipeRight = {
+                    direccion = -1
+                    index = datosArte.indices.random()
+                })
                 Spacer(modifier = Modifier.height(45.dp))
 
                 HorizontalDivider(modifier = Modifier
-                    .height(5.dp).width(230.dp).align(Alignment.End),
+                    .height(5.dp)
+                    .width(230.dp)
+                    .align(Alignment.End),
                     thickness = 3.5.dp, color = Color.Black)
 
             BotonesNavAcciones(
-                onAnteriorClick = {index = datosArte.indices.random()},
-                onSiguienteClick = {index = datosArte.indices.random()},
+                onAnteriorClick = {direccion = -1
+                    index = datosArte.indices.random()},
+                onSiguienteClick = {direccion = 1
+                    index = datosArte.indices.random()},
                 onCompartirClick = {},
                 onFavoritoClick = {})
             

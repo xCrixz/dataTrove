@@ -36,6 +36,7 @@ import com.sharkzapps.datatrove.pantallas.datos.datosCulturaGeneral
 fun CategoriaCGeneral(navController: NavController? = null) {
 
     var index by remember { mutableIntStateOf(0) }
+    var direccion by remember { mutableIntStateOf(1) }
 
     Box(
         modifier = Modifier
@@ -71,7 +72,14 @@ fun CategoriaCGeneral(navController: NavController? = null) {
                 color = Color.Black)
             
             Spacer(modifier = Modifier.height(40.dp))
-            DatoAleatorio(dato = datosCulturaGeneral[index])
+            DatoAleatorioSlide(dato = datosCulturaGeneral[index], direccion = direccion,
+                onSwipeLeft = {
+                    direccion = 1
+                    index = datosCulturaGeneral.indices.random()
+                }, onSwipeRight = {
+                    direccion = -1
+                    index = datosCulturaGeneral.indices.random()
+                })
             Spacer(modifier = Modifier.height(45.dp))
 
             HorizontalDivider(modifier = Modifier
@@ -81,8 +89,10 @@ fun CategoriaCGeneral(navController: NavController? = null) {
                 thickness = 3.5.dp, color = Color.Black)
 
             BotonesNavAcciones(
-                onAnteriorClick = {index = datosCulturaGeneral.indices.random()},
-                onSiguienteClick = {index = datosCulturaGeneral.indices.random()},
+                onAnteriorClick = {direccion = -1
+                    index = datosCulturaGeneral.indices.random()},
+                onSiguienteClick = {direccion = 1
+                    index = datosCulturaGeneral.indices.random()},
                 onCompartirClick = {},
                 onFavoritoClick = {})
         }

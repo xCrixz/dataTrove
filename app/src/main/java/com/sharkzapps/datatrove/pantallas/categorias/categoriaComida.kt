@@ -36,6 +36,7 @@ import com.sharkzapps.datatrove.pantallas.datos.datosComida
 fun CategoriaComida(navController: NavController? = null) {
 
     var index by remember { mutableIntStateOf(0) }
+    var direccion by remember { mutableIntStateOf(1) }
 
     Box(
         modifier = Modifier
@@ -71,7 +72,14 @@ fun CategoriaComida(navController: NavController? = null) {
                 color = Color.Black)
             
             Spacer(modifier = Modifier.height(40.dp))
-            DatoAleatorio(dato = datosComida[index])
+            DatoAleatorioSlide(dato = datosComida[index], direccion = direccion,
+                onSwipeLeft = {
+                    direccion = 1
+                    index = datosComida.indices.random()
+                }, onSwipeRight = {
+                    direccion = -1
+                    index = datosComida.indices.random()
+                })
             Spacer(modifier = Modifier.height(45.dp))
 
             HorizontalDivider(modifier = Modifier
@@ -81,8 +89,10 @@ fun CategoriaComida(navController: NavController? = null) {
                 thickness = 3.5.dp, color = Color.Black)
 
             BotonesNavAcciones(
-                onAnteriorClick = {index = datosComida.indices.random()},
-                onSiguienteClick = {index = datosComida.indices.random()},
+                onAnteriorClick = {direccion = -1
+                    index = datosComida.indices.random()},
+                onSiguienteClick = {direccion = 1
+                    index = datosComida.indices.random()},
                 onCompartirClick = {},
                 onFavoritoClick = {})
         }

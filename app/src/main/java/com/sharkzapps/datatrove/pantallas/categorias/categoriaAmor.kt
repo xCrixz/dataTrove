@@ -1,6 +1,13 @@
 package com.sharkzapps.datatrove.pantallas.categorias
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,6 +37,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.PointerInputScope
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -46,6 +55,7 @@ import com.sharkzapps.datatrove.ui.theme.garamondFamily
 fun CategoriaAmor(navController: NavController? = null){
 
     var index by remember { mutableIntStateOf(0) }
+    var direccion by remember { mutableIntStateOf(1) }
 
     Box(modifier = Modifier
         .fillMaxSize()
@@ -84,7 +94,16 @@ fun CategoriaAmor(navController: NavController? = null){
                     thickness = 3.5.dp, color = Color.Black)
 
                 Spacer(modifier = Modifier.height(40.dp))
-                DatoAleatorio(dato = datosAmor[index])
+
+                DatoAleatorioSlide(dato = datosAmor[index], direccion = direccion,
+                    onSwipeLeft = {
+                        direccion = 1
+                        index = datosAmor.indices.random()
+                    }, onSwipeRight = {
+                        direccion = -1
+                        index = datosAmor.indices.random()
+                    })
+
                 Spacer(modifier = Modifier.height(45.dp))
 
                 HorizontalDivider(modifier = Modifier
@@ -94,8 +113,10 @@ fun CategoriaAmor(navController: NavController? = null){
                     thickness = 3.5.dp, color = Color.Black)
 
                 BotonesNavAcciones(
-                    onAnteriorClick = {index = datosAmor.indices.random()},
-                    onSiguienteClick = {index = datosAmor.indices.random()},
+                    onAnteriorClick = {direccion = -1
+                        index = datosAmor.indices.random()},
+                    onSiguienteClick = {direccion = 1
+                        index = datosAmor.indices.random()},
                     onCompartirClick = {},
                     onFavoritoClick = {})
         }
@@ -111,6 +132,50 @@ fun DatoAleatorio(dato: String){
             .padding(horizontal = 12.dp)
             .fillMaxWidth()
     )
+}
+
+suspend fun PointerInputScope.detectHorizontalSwipe(
+    onSwipeLeft: () -> Unit,
+    onSwipeRight: () -> Unit
+){
+    var totalDx = 0f
+    detectDragGestures(onDragStart = {
+        totalDx = 0f
+    },
+        onDrag = {change, dragAmount ->
+            val (dx, _) = dragAmount
+            totalDx += dx
+            change.consume()
+        },
+        onDragEnd = {
+            when{
+                totalDx < -80f -> onSwipeLeft()
+                totalDx > 80f -> onSwipeRight()
+            }
+        })
+}
+@Composable
+fun DatoAleatorioSlide(dato: String, direccion: Int, onSwipeLeft: () -> Unit, onSwipeRight: () -> Unit){
+    Box(modifier = Modifier
+        .fillMaxWidth()
+        .pointerInput(Unit) {
+            detectHorizontalSwipe(
+                onSwipeLeft = onSwipeLeft,
+                onSwipeRight = onSwipeRight
+            )
+        }) {
+        AnimatedContent(targetState = dato, transitionSpec = {
+            slideInHorizontally { fullWidth -> fullWidth * direccion } + fadeIn() togetherWith
+            slideOutHorizontally { fullWidth -> -fullWidth * direccion } + fadeOut()
+            }, label = ""
+        ) { target ->
+            Text(text = target,
+                fontSize = 30.sp, style = TextStyle(fontFamily = garamondFamily),
+                color = Color.Black, fontWeight = FontWeight.ExtraBold, textAlign = TextAlign.Center, modifier = Modifier
+                    .padding(horizontal = 12.dp)
+                    .fillMaxWidth()
+        )
+    }}
 }
 
 @Composable

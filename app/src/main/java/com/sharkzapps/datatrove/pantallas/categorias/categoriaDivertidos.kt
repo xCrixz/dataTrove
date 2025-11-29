@@ -36,6 +36,7 @@ import com.sharkzapps.datatrove.pantallas.datos.datosDivertidos
 fun CategoriaDivertidos(navController: NavController? = null) {
 
     var index by remember { mutableIntStateOf(0) }
+    var direccion by remember { mutableIntStateOf(1) }
 
     Box(
         modifier = Modifier
@@ -76,7 +77,14 @@ fun CategoriaDivertidos(navController: NavController? = null) {
             )
 
             Spacer(modifier = Modifier.height(40.dp))
-            DatoAleatorio(dato = datosDivertidos[index])
+            DatoAleatorioSlide(dato = datosDivertidos[index], direccion = direccion,
+                onSwipeLeft = {
+                    direccion = 1
+                    index = datosDivertidos.indices.random()
+                }, onSwipeRight = {
+                    direccion = -1
+                    index = datosDivertidos.indices.random()
+                })
             Spacer(modifier = Modifier.height(45.dp))
 
             HorizontalDivider(
@@ -88,8 +96,10 @@ fun CategoriaDivertidos(navController: NavController? = null) {
             )
 
             BotonesNavAcciones(
-                onAnteriorClick = {index = datosDivertidos.indices.random()},
-                onSiguienteClick = {index = datosDivertidos.indices.random()},
+                onAnteriorClick = {direccion = -1
+                    index = datosDivertidos.indices.random()},
+                onSiguienteClick = {direccion = 1
+                    index = datosDivertidos.indices.random()},
                 onCompartirClick = {},
                 onFavoritoClick = {})
         }
