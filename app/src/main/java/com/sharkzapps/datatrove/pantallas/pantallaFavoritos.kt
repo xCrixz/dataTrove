@@ -10,18 +10,21 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.Card
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -29,6 +32,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.sharkzapps.datatrove.ui.theme.garamondFamily
 
 @Composable
@@ -36,15 +40,32 @@ fun PantallaFavoritos(navController: NavController, favViewModel: DataTroveViewM
 
     Box(modifier = Modifier
         .fillMaxSize()
-        .background(Color(0xFFFFFEE5))){
-        Column(modifier = Modifier.padding(16.dp)) {
+        .background(
+            brush = Brush.verticalGradient(
+                colors = listOf(
+                    Color(0xFFFFF8E1),
+                    Color(0xFFFFE082)
+                )
+            )
+        )){
+        Column(modifier = Modifier.fillMaxSize().padding(14.dp, 8.dp)) {
+
+            val controller = navController ?: rememberNavController()
+            Encabezado(navController = controller, onMenuClick = {})
+            Spacer(modifier = Modifier.height(5.dp))
             Text(
-                text = "⭐ Favoritos",
-                fontSize = 32.sp,
+                text = "Favoritos ⭐",
+                fontSize = 35.sp,
                 style = TextStyle(fontFamily = garamondFamily, fontWeight = FontWeight.Black)
             )
 
-            Spacer(modifier = Modifier.height(15.dp))
+            HorizontalDivider(modifier = Modifier
+                .height(5.dp)
+                .width(230.dp)
+                .align(Alignment.Start),
+                thickness = 3.5.dp, color = Color.Black)
+
+            Spacer(modifier = Modifier.height(20.dp))
 
             if (favViewModel.favoritos.isEmpty()){
                 Box(
