@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.HorizontalDivider
@@ -47,15 +48,22 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.sharkzapps.datatrove.pantallas.DataTroveViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sharkzapps.datatrove.pantallas.Encabezado
 import com.sharkzapps.datatrove.pantallas.datos.datosAmor
 import com.sharkzapps.datatrove.ui.theme.garamondFamily
 
 @Composable
-fun CategoriaAmor(navController: NavController? = null){
+fun CategoriaAmor(navController: NavController? = null,
+                  viewModel: DataTroveViewModel = viewModel()
+){
 
     var index by remember { mutableIntStateOf(0) }
     var direccion by remember { mutableIntStateOf(1) }
+
+    val textoActual = datosAmor[index]
+    val esFavorito = viewModel.esFavorito(textoActual)
 
     Box(modifier = Modifier
         .fillMaxSize()
@@ -117,21 +125,11 @@ fun CategoriaAmor(navController: NavController? = null){
                         index = datosAmor.indices.random()},
                     onSiguienteClick = {direccion = 1
                         index = datosAmor.indices.random()},
+                    onFavoritoClick = {viewModel.cambiarFavorito(textoActual)},
                     onCompartirClick = {},
-                    onFavoritoClick = {})
+                    esFavorito = esFavorito)
         }
     }
-}
-
-@Composable
-fun DatoAleatorio(dato: String){
-    Text(text = dato,
-        fontSize = 30.sp, style = TextStyle(fontFamily = garamondFamily),
-        color = Color.Black, fontWeight = FontWeight.ExtraBold, textAlign = TextAlign.Center
-        , modifier = Modifier
-            .padding(horizontal = 12.dp)
-            .fillMaxWidth()
-    )
 }
 
 suspend fun PointerInputScope.detectHorizontalSwipe(
@@ -182,7 +180,8 @@ fun DatoAleatorioSlide(dato: String, direccion: Int, onSwipeLeft: () -> Unit, on
 fun BotonesNavAcciones(onAnteriorClick: () -> Unit = {},
                        onSiguienteClick: () -> Unit = {},
                        onFavoritoClick: () -> Unit = {},
-                       onCompartirClick: () -> Unit = {}){
+                       onCompartirClick: () -> Unit = {},
+                       esFavorito: Boolean){
     
     Spacer(modifier = Modifier.height(15.dp))
     Row(modifier = Modifier
@@ -205,15 +204,15 @@ fun BotonesNavAcciones(onAnteriorClick: () -> Unit = {},
 
         Row {
             IconButton(onClick = onFavoritoClick) {
-                Icon(imageVector = Icons.Default.FavoriteBorder,
-                    contentDescription = "Favorito", Modifier.size(40.dp) )
+                Icon(imageVector = if (esFavorito) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                    contentDescription = "Favorito", modifier = Modifier.size(40.dp))
             }
 
             Spacer(modifier = Modifier.width(5.dp))
 
             IconButton(onClick = onCompartirClick) {
                 Icon(imageVector = Icons.Default.Share,
-                    contentDescription = "Compartir", Modifier.size(40.dp))
+                    contentDescription = "Compartir", modifier = Modifier.size(40.dp))
             }
         }
     }

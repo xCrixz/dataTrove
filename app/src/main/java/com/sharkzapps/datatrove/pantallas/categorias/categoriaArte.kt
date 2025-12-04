@@ -26,16 +26,23 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.style.TextAlign
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sharkzapps.datatrove.ui.theme.garamondFamily
 import com.sharkzapps.datatrove.pantallas.Encabezado
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.sharkzapps.datatrove.pantallas.DataTroveViewModel
 import com.sharkzapps.datatrove.pantallas.datos.datosArte
 
 @Composable
-fun CategoriaArte(navController: NavController? = null) {
+fun CategoriaArte(navController: NavController? = null,
+                  viewModel: DataTroveViewModel = viewModel()
+) {
     var index by remember { mutableIntStateOf(0) }
     var direccion by remember { mutableIntStateOf(1) }
+
+    val textoActual = datosArte[index]
+    val esFavorito = viewModel.esFavorito(textoActual)
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -94,8 +101,9 @@ fun CategoriaArte(navController: NavController? = null) {
                     index = datosArte.indices.random()},
                 onSiguienteClick = {direccion = 1
                     index = datosArte.indices.random()},
+                onFavoritoClick = {viewModel.cambiarFavorito(textoActual)},
                 onCompartirClick = {},
-                onFavoritoClick = {})
+                esFavorito = esFavorito)
             
         }
     }

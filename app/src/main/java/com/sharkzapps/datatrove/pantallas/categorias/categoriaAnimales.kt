@@ -29,14 +29,21 @@ import androidx.compose.ui.text.style.TextAlign
 import com.sharkzapps.datatrove.ui.theme.garamondFamily
 import com.sharkzapps.datatrove.pantallas.Encabezado
 import androidx.navigation.NavController
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
+import com.sharkzapps.datatrove.pantallas.DataTroveViewModel
 import com.sharkzapps.datatrove.pantallas.datos.datosAnimales
 
 @Composable
-fun CategoriaAnimales(navController: NavController? = null) {
+fun CategoriaAnimales(navController: NavController? = null,
+                      viewModel: DataTroveViewModel = viewModel()
+) {
 
     var index by remember { mutableIntStateOf(0) }
     var direccion by remember { mutableIntStateOf(1) }
+
+    val textoActual = datosAnimales[index]
+    val esFavorito = viewModel.esFavorito(textoActual)
 
     Box(
         modifier = Modifier
@@ -93,8 +100,9 @@ fun CategoriaAnimales(navController: NavController? = null) {
                     index = datosAnimales.indices.random()},
                 onSiguienteClick = {direccion = 1
                     index = datosAnimales.indices.random()},
+                onFavoritoClick = {viewModel.cambiarFavorito(textoActual)},
                 onCompartirClick = {},
-                onFavoritoClick = {})
+                esFavorito = esFavorito)
         }
     }
 }

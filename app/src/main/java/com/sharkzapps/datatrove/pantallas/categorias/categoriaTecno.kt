@@ -27,16 +27,23 @@ import androidx.compose.ui.unit.sp
 import com.sharkzapps.datatrove.ui.theme.garamondFamily
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.style.TextAlign
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sharkzapps.datatrove.pantallas.Encabezado
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.sharkzapps.datatrove.pantallas.DataTroveViewModel
 import com.sharkzapps.datatrove.pantallas.datos.datosTecnologia
 
 @Composable
-fun CategoriaTecno(navController: NavController? = null) {
+fun CategoriaTecno(navController: NavController? = null,
+                   viewModel: DataTroveViewModel = viewModel()
+) {
 
     var index by remember { mutableIntStateOf(0) }
     var direccion by remember { mutableIntStateOf(1) }
+
+    val textoActual = datosTecnologia[index]
+    val esFavorito = viewModel.esFavorito(textoActual)
 
     Box(
         modifier = Modifier
@@ -93,8 +100,9 @@ fun CategoriaTecno(navController: NavController? = null) {
                     index = datosTecnologia.indices.random()},
                 onSiguienteClick = {direccion = 1
                     index = datosTecnologia.indices.random()},
+                onFavoritoClick = {viewModel.cambiarFavorito(textoActual)},
                 onCompartirClick = {},
-                onFavoritoClick = {})
+                esFavorito = esFavorito)
         }
     }
 }

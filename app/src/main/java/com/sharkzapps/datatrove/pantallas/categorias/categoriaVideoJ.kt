@@ -27,16 +27,23 @@ import androidx.compose.ui.unit.sp
 import com.sharkzapps.datatrove.ui.theme.garamondFamily
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.style.TextAlign
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sharkzapps.datatrove.pantallas.Encabezado
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.sharkzapps.datatrove.pantallas.DataTroveViewModel
 import com.sharkzapps.datatrove.pantallas.datos.datosVideoJuegos
 
 @Composable
-fun CategoriaVideoJ(navController: NavController? = null) {
+fun CategoriaVideoJ(navController: NavController? = null,
+                    viewModel: DataTroveViewModel = viewModel()
+) {
 
     var index by remember { mutableIntStateOf(0) }
     var direccion by remember { mutableIntStateOf(1) }
+
+    val textoActual = datosVideoJuegos[index]
+    val esFavorito = viewModel.esFavorito(textoActual)
 
     Box(
         modifier = Modifier
@@ -92,8 +99,9 @@ fun CategoriaVideoJ(navController: NavController? = null) {
                     index = datosVideoJuegos.indices.random()},
                 onSiguienteClick = {direccion = 1
                     index = datosVideoJuegos.indices.random()},
+                onFavoritoClick = {viewModel.cambiarFavorito(textoActual)},
                 onCompartirClick = {},
-                onFavoritoClick = {})
+                esFavorito = esFavorito)
         }
     }
 }

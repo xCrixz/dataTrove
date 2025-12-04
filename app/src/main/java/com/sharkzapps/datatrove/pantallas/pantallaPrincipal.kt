@@ -74,7 +74,7 @@ fun PantallaPrincipal(navController: NavController? = null){
         var bloqueoClick by remember { mutableStateOf(false) }
 
         ModalNavigationDrawer(
-            drawerContent = { ContenidoMenuLateral() },
+            drawerContent = { ContenidoMenuLateral(controller) },
             drawerState = drawerState
         ) {
             Box(
@@ -114,14 +114,14 @@ fun PantallaPrincipal(navController: NavController? = null){
 
 
     @Composable
-fun ContenidoMenuLateral(){
+fun ContenidoMenuLateral(navController: NavController){
     Column(modifier = Modifier
         .fillMaxHeight()
         .width(250.dp)
         .background(Color(0xFFFFFEE5))
         .padding(horizontal = 16.dp, vertical = 25.dp)) {
         Spacer(modifier = Modifier.size(25.dp))
-        Opciones()
+        Opciones(navController)
         Spacer(modifier = Modifier.size(20.dp))
         Soporte()
         Spacer(modifier = Modifier.size(20.dp))
@@ -132,18 +132,18 @@ fun ContenidoMenuLateral(){
 }
 
 @Composable
-fun Opciones(){
+fun Opciones(navController: NavController){
     Text(text = "\uD83D\uDCCB Opciones", fontSize = 30.sp, style = TextStyle(fontFamily = garamondFamily,
         fontWeight = FontWeight.Black))
     Spacer(modifier = Modifier.size(14.dp))
     Text(text = "Principal", fontSize = 22.sp, style = TextStyle(fontFamily = garamondFamily,
-        fontWeight = FontWeight.ExtraBold), modifier = Modifier.clickable {  })
+        fontWeight = FontWeight.ExtraBold), modifier = Modifier.clickable { navController.navigate("principal") })
     Spacer(modifier = Modifier.size(14.dp))
     Text(text = "Notificaciones", fontSize = 22.sp, style = TextStyle(fontFamily = garamondFamily,
         fontWeight = FontWeight.ExtraBold), modifier = Modifier.clickable {  })
     Spacer(modifier = Modifier.size(14.dp))
     Text(text = "Favoritos", fontSize = 22.sp, style = TextStyle(fontFamily = garamondFamily,
-        fontWeight = FontWeight.ExtraBold), modifier = Modifier.clickable {  })
+        fontWeight = FontWeight.ExtraBold), modifier = Modifier.clickable { navController.navigate("favoritos") })
     Spacer(modifier = Modifier.size(14.dp))
     Text(text = "Idiomas", fontSize = 22.sp, style = TextStyle(fontFamily = garamondFamily,
         fontWeight = FontWeight.ExtraBold), modifier = Modifier.clickable {  })

@@ -27,16 +27,23 @@ import com.sharkzapps.datatrove.ui.theme.garamondFamily
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sharkzapps.datatrove.pantallas.Encabezado
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.sharkzapps.datatrove.pantallas.DataTroveViewModel
 import com.sharkzapps.datatrove.pantallas.datos.datosMarcas
 
 @Composable
-fun CategoriaMarcas(navController: NavController? = null) {
+fun CategoriaMarcas(navController: NavController? = null,
+                    viewModel: DataTroveViewModel = viewModel()
+) {
 
     var index by remember { mutableIntStateOf(0) }
     var direccion by remember { mutableIntStateOf(1) }
+
+    val textoActual = datosMarcas[index]
+    val esFavorito = viewModel.esFavorito(textoActual)
 
     Box(
         modifier = Modifier
@@ -93,8 +100,9 @@ fun CategoriaMarcas(navController: NavController? = null) {
                     index = datosMarcas.indices.random()},
                 onSiguienteClick = {direccion = 1
                     index = datosMarcas.indices.random()},
+                onFavoritoClick = {viewModel.cambiarFavorito(textoActual)},
                 onCompartirClick = {},
-                onFavoritoClick = {})
+                esFavorito = esFavorito)
         }
     }
 }

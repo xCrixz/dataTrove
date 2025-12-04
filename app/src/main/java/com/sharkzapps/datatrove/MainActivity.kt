@@ -6,10 +6,13 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.sharkzapps.datatrove.pantallas.DataTroveViewModel
 import com.sharkzapps.datatrove.pantallas.PantallaCarga
+import com.sharkzapps.datatrove.pantallas.PantallaFavoritos
 import com.sharkzapps.datatrove.pantallas.PantallaPrincipal
 import com.sharkzapps.datatrove.pantallas.categorias.CategoriaAmor
 import com.sharkzapps.datatrove.pantallas.categorias.CategoriaCiencia
@@ -45,29 +48,33 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun NavegacionApp(){
     val navController = rememberNavController()
+    val favViewModel: DataTroveViewModel = viewModel()
 
     NavHost(navController = navController, startDestination = "pantallaCarga") {
         composable("pantallaCarga"){ PantallaCarga(navController)}
         composable("principal"){ PantallaPrincipal(navController)}
 
+        // Pantalla Favoritos
+        composable("favoritos"){ PantallaFavoritos(navController, favViewModel)}
+
         // Pantallas de categorias
-        composable("categoria_amor"){ CategoriaAmor(navController) }
-        composable("categoria_ciencia"){ CategoriaCiencia(navController) }
-        composable("categoria_tecnologia"){ CategoriaTecno(navController) }
-        composable("categoria_historia"){ CategoriaHistoria(navController) }
-        composable("categoria_animales"){ CategoriaAnimales(navController) }
-        composable("categoria_psicologia"){ CategoriaPsicologia(navController) }
-        composable("categoria_cgeneral"){ CategoriaCGeneral(navController) }
-        composable("categoria_arte"){ CategoriaArte(navController) }
-        composable("categoria_misterios"){ CategoriaMisterios(navController) }
-        composable("categoria_idiomas"){ CategoriaIdiomas(navController) }
-        composable("categoria_espacio"){ CategoriaEspacio(navController) }
-        composable("categoria_inventos"){ CategoriaInventos(navController) }
-        composable("categoria_videoj"){ CategoriaVideoJ(navController) }
-        composable("categoria_comida"){ CategoriaComida(navController) }
-        composable("categoria_marcas"){ CategoriaMarcas(navController) }
-        composable("categoria_utiles"){ CategoriaUtiles(navController) }
-        composable("categoria_divertidos"){ CategoriaDivertidos(navController) }
+        composable("categoria_amor"){ CategoriaAmor(navController, favViewModel) }
+        composable("categoria_ciencia"){ CategoriaCiencia(navController, favViewModel) }
+        composable("categoria_tecnologia"){ CategoriaTecno(navController, favViewModel) }
+        composable("categoria_historia"){ CategoriaHistoria(navController, favViewModel) }
+        composable("categoria_animales"){ CategoriaAnimales(navController, favViewModel) }
+        composable("categoria_psicologia"){ CategoriaPsicologia(navController, favViewModel) }
+        composable("categoria_cgeneral"){ CategoriaCGeneral(navController, favViewModel) }
+        composable("categoria_arte"){ CategoriaArte(navController, favViewModel) }
+        composable("categoria_misterios"){ CategoriaMisterios(navController, favViewModel) }
+        composable("categoria_idiomas"){ CategoriaIdiomas(navController, favViewModel) }
+        composable("categoria_espacio"){ CategoriaEspacio(navController, favViewModel) }
+        composable("categoria_inventos"){ CategoriaInventos(navController, favViewModel) }
+        composable("categoria_videoj"){ CategoriaVideoJ(navController, favViewModel) }
+        composable("categoria_comida"){ CategoriaComida(navController, favViewModel) }
+        composable("categoria_marcas"){ CategoriaMarcas(navController, favViewModel) }
+        composable("categoria_utiles"){ CategoriaUtiles(navController, favViewModel) }
+        composable("categoria_divertidos"){ CategoriaDivertidos(navController, favViewModel) }
 
     }
 }
