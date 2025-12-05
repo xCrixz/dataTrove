@@ -32,7 +32,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.sharkzapps.datatrove.ui.theme.garamondFamily
 
 @Composable
@@ -114,15 +113,6 @@ fun PantallaFavoritos(navController: NavController, favViewModel: DataTroveViewM
 
 @Preview(showBackground = true, apiLevel = 34)
 @Composable
-fun PreviewFavoritos(){
-    val navController = rememberNavController()
+fun PreviewFavoritos() {
 
-    // Fake ViewModel para Preview
-    val fakeViewModel = DataTroveViewModel().apply {
-        cambiarFavorito("Primer favorito")
-        cambiarFavorito("Segundo favorito")
-        cambiarFavorito("Tercer favorito")
-    }
-
-    PantallaFavoritos(navController, fakeViewModel)
 }
