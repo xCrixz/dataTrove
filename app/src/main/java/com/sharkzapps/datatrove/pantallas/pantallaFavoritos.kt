@@ -48,10 +48,11 @@ fun PantallaFavoritos(navController: NavController, favViewModel: DataTroveViewM
                 )
             )
         )){
-        Column(modifier = Modifier.fillMaxSize().padding(14.dp, 8.dp)) {
+        Column(modifier = Modifier
+            .fillMaxSize()
+            .padding(14.dp, 8.dp)) {
 
-            val controller = navController ?: rememberNavController()
-            Encabezado(navController = controller, onMenuClick = {})
+            Encabezado(navController = navController, onMenuClick = {})
             Spacer(modifier = Modifier.height(5.dp))
             Text(
                 text = "Favoritos ⭐",
@@ -111,8 +112,17 @@ fun PantallaFavoritos(navController: NavController, favViewModel: DataTroveViewM
     
 }
 
-@Preview
+@Preview(showBackground = true, apiLevel = 34)
 @Composable
 fun PreviewFavoritos(){
+    val navController = rememberNavController()
 
+    // Fake ViewModel para Preview
+    val fakeViewModel = DataTroveViewModel().apply {
+        cambiarFavorito("Primer favorito")
+        cambiarFavorito("Segundo favorito")
+        cambiarFavorito("Tercer favorito")
+    }
+
+    PantallaFavoritos(navController, fakeViewModel)
 }
