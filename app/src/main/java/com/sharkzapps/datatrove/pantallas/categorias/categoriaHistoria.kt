@@ -26,24 +26,24 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.style.TextAlign
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sharkzapps.datatrove.ui.theme.garamondFamily
 import com.sharkzapps.datatrove.pantallas.Encabezado
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.sharkzapps.datatrove.pantallas.DataTroveViewModel
+import com.sharkzapps.datatrove.pantallas.CategoriaState
+import com.sharkzapps.datatrove.pantallas.FakeCategoriaState
 import com.sharkzapps.datatrove.pantallas.datos.datosHistoria
 
 @Composable
 fun CategoriaHistoria(navController: NavController? = null,
-                      viewModel: DataTroveViewModel = viewModel()
+                      state: CategoriaState
 ) {
 
     var index by remember { mutableIntStateOf(0) }
     var direccion by remember { mutableIntStateOf(1) }
 
     val textoActual = datosHistoria[index]
-    val esFavorito = viewModel.esFavorito(textoActual)
+    val esFavorito = state.esFavorito(textoActual)
 
     Box(
         modifier = Modifier
@@ -100,15 +100,19 @@ fun CategoriaHistoria(navController: NavController? = null,
                     index = datosHistoria.indices.random()},
                 onSiguienteClick = {direccion = 1
                     index = datosHistoria.indices.random()},
-                onFavoritoClick = {viewModel.cambiarFavorito(textoActual)},
+                onFavoritoClick = {state.cambiarFavorito(textoActual)},
                 onCompartirClick = {},
                 esFavorito = esFavorito)
         }
     }
 }
 
+
 @Preview(showBackground = true, apiLevel = 34)
 @Composable
 fun PreviewCategoriaHistoria() {
-    CategoriaHistoria()
+    CategoriaHistoria(
+        navController = rememberNavController(),
+        state = FakeCategoriaState()
+    )
 }

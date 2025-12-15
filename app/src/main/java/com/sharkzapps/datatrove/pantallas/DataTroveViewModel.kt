@@ -7,35 +7,33 @@ import androidx.lifecycle.viewModelScope
 import com.sharkzapps.datatrove.pantallas.categorias.FavoritosDataStore
 import kotlinx.coroutines.launch
 
-open class DataTroveViewModel(application: Application): AndroidViewModel(application) {
+class DataTroveViewModel(application: Application): AndroidViewModel(application),
+CategoriaState{
 
     private val dataStore = FavoritosDataStore(application)
     private val _favoritos = mutableStateListOf<String>()
-    val favoritos: List<String> get() = _favoritos
+
+    override val favoritos: List<String>
+        get() = _favoritos
+    override fun esFavorito(dato: String): Boolean {
+        return _favoritos.contains(dato)
+    }
 
     init {
         viewModelScope.launch {
-            dataStore.favoritos.collect{ set ->
+            dataStore.favoritos.collect { set ->
                 _favoritos.clear()
                 _favoritos.addAll(set)
-
             }
         }
     }
 
-    open fun cambiarFavorito(dato: String){
+    override fun cambiarFavorito(dato: String) {
         if (_favoritos.contains(dato)){
             _favoritos.remove(dato)
         } else {
             _favoritos.add(dato)
         }
-        viewModelScope.launch {
-            dataStore.guardarFavoritos(_favoritos.toSet())
-        }
+        viewModelScope.launch { dataStore.guardarFavoritos(_favoritos.toSet()) }
     }
-
-    fun esFavorito(dato: String): Boolean{
-        return _favoritos.contains(dato)
-    }
-
 }

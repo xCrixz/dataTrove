@@ -32,10 +32,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.sharkzapps.datatrove.ui.theme.garamondFamily
 
 @Composable
-fun PantallaFavoritos(navController: NavController, favViewModel: DataTroveViewModel){
+fun PantallaFavoritos(navController: NavController, state: CategoriaState){
 
     Box(modifier = Modifier
         .fillMaxSize()
@@ -67,7 +68,7 @@ fun PantallaFavoritos(navController: NavController, favViewModel: DataTroveViewM
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            if (favViewModel.favoritos.isEmpty()){
+            if (state.favoritos.isEmpty()){
                 Box(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
@@ -81,7 +82,7 @@ fun PantallaFavoritos(navController: NavController, favViewModel: DataTroveViewM
                 }
             } else {
                 LazyColumn {
-                    items(favViewModel.favoritos){ item -> Card(modifier = Modifier
+                    items(state.favoritos){ item -> Card(modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 6.dp),
                         shape = RoundedCornerShape(12.dp)
@@ -98,7 +99,7 @@ fun PantallaFavoritos(navController: NavController, favViewModel: DataTroveViewM
                                 modifier = Modifier.weight(1f)
                             )
 
-                            IconButton(onClick = { favViewModel.cambiarFavorito(item) }) {
+                            IconButton(onClick = { state.cambiarFavorito(item) }) {
                                 Icon(imageVector = Icons.Default.Favorite,
                                     contentDescription = "Quitar", tint = Color.Red )
                             }
@@ -108,11 +109,12 @@ fun PantallaFavoritos(navController: NavController, favViewModel: DataTroveViewM
             }
         }
     }
-    
+
 }
+
 
 @Preview(showBackground = true, apiLevel = 34)
 @Composable
 fun PreviewFavoritos() {
-
+    PantallaFavoritos(navController = rememberNavController(), state = FakeCategoriaState() )
 }
