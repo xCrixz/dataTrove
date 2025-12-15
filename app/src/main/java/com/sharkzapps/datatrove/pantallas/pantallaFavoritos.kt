@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -66,7 +67,7 @@ fun PantallaFavoritos(navController: NavController, state: CategoriaState){
                 .align(Alignment.Start),
                 thickness = 3.5.dp, color = Color.Black)
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(10.dp))
 
             if (state.favoritos.isEmpty()){
                 Box(
@@ -81,7 +82,7 @@ fun PantallaFavoritos(navController: NavController, state: CategoriaState){
                     )
                 }
             } else {
-                LazyColumn {
+                LazyColumn(modifier = Modifier.fillMaxSize(), contentPadding = PaddingValues(bottom = 37.dp)) {
                     items(state.favoritos){ item -> Card(modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 6.dp),
@@ -109,7 +110,6 @@ fun PantallaFavoritos(navController: NavController, state: CategoriaState){
             }
         }
     }
-
 }
 
 
