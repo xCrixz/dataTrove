@@ -1,5 +1,7 @@
 package com.sharkzapps.datatrove.pantallas.categorias
 
+import android.content.Context
+import android.content.Intent
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -40,6 +42,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerInputScope
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -64,6 +67,9 @@ fun CategoriaAmor(navController: NavController? = null,
 
     val textoActual = datosAmor[index]
     val esFavorito = state.esFavorito(textoActual)
+    val context = LocalContext.current
+
+
 
 
 
@@ -128,7 +134,8 @@ fun CategoriaAmor(navController: NavController? = null,
                     onSiguienteClick = {direccion = 1
                         index = datosAmor.indices.random()},
                     onFavoritoClick = {state.cambiarFavorito(textoActual)},
-                    onCompartirClick = {},
+                    onCompartirClick = { compartirTexto(context, textoActual)
+                    },
                     esFavorito = esFavorito)
         }
     }
@@ -221,6 +228,18 @@ fun BotonesNavAcciones(onAnteriorClick: () -> Unit = {},
         }
     }
 }
+
+fun compartirTexto(context: Context, texto: String) {
+    val intent = Intent(Intent.ACTION_SEND).apply {
+        type = "text/plain"
+        putExtra(Intent.EXTRA_TEXT, texto)
+    }
+
+    context.startActivity(
+        Intent.createChooser(intent, "Compartir frase")
+    )
+}
+
 
 @Preview(showBackground = true, apiLevel = 34)
 @Composable
