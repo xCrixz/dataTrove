@@ -3,7 +3,7 @@ package com.sharkzapps.datatrove.pantallas.categorias
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.view.View
+import android.graphics.Canvas
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -20,9 +20,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
@@ -36,6 +38,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -44,16 +47,16 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerInputScope
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.FileProvider
-import androidx.core.view.drawToBitmap
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.sharkzapps.datatrove.pantallas.CategoriaState
@@ -74,12 +77,7 @@ fun CategoriaAmor(navController: NavController? = null,
     val textoActual = datosAmor[index]
     val esFavorito = state.esFavorito(textoActual)
     val context = LocalContext.current
-    val view = LocalView.current
-
-
-
-
-
+    var bitmapParaCompartir by remember { mutableStateOf<Bitmap?>(null) }
 
     Box(modifier = Modifier
         .fillMaxSize()
@@ -92,6 +90,10 @@ fun CategoriaAmor(navController: NavController? = null,
             )
         )
     ){
+        FraseCapturableInvisible(
+            texto = textoActual,
+            onBitmapReady = { bitmapParaCompartir = it }
+        )
         Column(modifier = Modifier
             .fillMaxSize()
             .padding(14.dp, 8.dp),
@@ -142,8 +144,9 @@ fun CategoriaAmor(navController: NavController? = null,
                     onSiguienteClick = {direccion = 1
                         index = datosAmor.indices.random()},
                     onFavoritoClick = {state.cambiarFavorito(textoActual)},
-                    onCompartirClick = { val bitmap = capturarBitmapDesdeView(view)
-                        compartirImagen(context, bitmap)
+                    onCompartirClick = { bitmapParaCompartir?.let {
+                        compartirImagen(context, it)
+                    }
                     },
                     esFavorito = esFavorito)
         }
@@ -239,30 +242,52 @@ fun BotonesNavAcciones(onAnteriorClick: () -> Unit = {},
 }
 
 @Composable
-fun FraseParaImagen(
+fun FraseCapturableInvisible(
     texto: String,
-    modifier: Modifier = Modifier
+    onBitmapReady: (Bitmap) -> Unit
 ) {
-    Box(
-        modifier = modifier
-            .background(Color.White)
-            .padding(32.dp),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = texto,
-            fontSize = 32.sp,
-            fontFamily = garamondFamily,
-            fontWeight = FontWeight.ExtraBold,
-            color = Color.Black,
-            textAlign = TextAlign.Center
-        )
-    }
+    AndroidView(
+        factory = { context ->
+            ComposeView(context).apply {
+                setContent {
+                    Box(
+                        modifier = Modifier
+                            .wrapContentSize()
+                            .background(Color.White)
+                            .padding(24.dp)
+                    ) {
+                        Text(
+                            text = texto,
+                            fontSize = 28.sp,
+                            fontFamily = garamondFamily,
+                            fontWeight = FontWeight.ExtraBold,
+                            color = Color.Black,
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                }
+            }
+        },
+        modifier = Modifier
+            .offset(x = (-10000).dp) // 👈 fuera de pantalla
+            .wrapContentSize(),
+        update = { view ->
+            view.post {
+                if (view.width == 0 || view.height == 0) return@post
+
+                val bitmap = Bitmap.createBitmap(
+                    view.width,
+                    view.height,
+                    Bitmap.Config.ARGB_8888
+                )
+                val canvas = Canvas(bitmap)
+                view.draw(canvas)
+                onBitmapReady(bitmap)
+            }
+        }
+    )
 }
 
-fun capturarBitmapDesdeView(view: View): Bitmap {
-    return view.drawToBitmap(Bitmap.Config.ARGB_8888)
-}
 
 fun compartirImagen(context: Context, bitmap: Bitmap) {
     val file = File(context.cacheDir, "frase.png")
