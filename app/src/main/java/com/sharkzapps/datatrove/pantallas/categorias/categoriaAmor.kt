@@ -2,6 +2,8 @@ package com.sharkzapps.datatrove.pantallas.categorias
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.view.View
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -43,12 +45,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerInputScope
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.FileProvider
+import androidx.core.view.drawToBitmap
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.sharkzapps.datatrove.pantallas.CategoriaState
@@ -56,6 +61,7 @@ import com.sharkzapps.datatrove.pantallas.Encabezado
 import com.sharkzapps.datatrove.pantallas.FakeCategoriaState
 import com.sharkzapps.datatrove.pantallas.datos.datosAmor
 import com.sharkzapps.datatrove.ui.theme.garamondFamily
+import java.io.File
 
 @Composable
 fun CategoriaAmor(navController: NavController? = null,
@@ -68,6 +74,8 @@ fun CategoriaAmor(navController: NavController? = null,
     val textoActual = datosAmor[index]
     val esFavorito = state.esFavorito(textoActual)
     val context = LocalContext.current
+    val view = LocalView.current
+
 
 
 
@@ -134,7 +142,8 @@ fun CategoriaAmor(navController: NavController? = null,
                     onSiguienteClick = {direccion = 1
                         index = datosAmor.indices.random()},
                     onFavoritoClick = {state.cambiarFavorito(textoActual)},
-                    onCompartirClick = { compartirTexto(context, textoActual)
+                    onCompartirClick = { val bitmap = capturarBitmapDesdeView(view)
+                        compartirImagen(context, bitmap)
                     },
                     esFavorito = esFavorito)
         }
@@ -229,16 +238,56 @@ fun BotonesNavAcciones(onAnteriorClick: () -> Unit = {},
     }
 }
 
-fun compartirTexto(context: Context, texto: String) {
+@Composable
+fun FraseParaImagen(
+    texto: String,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier
+            .background(Color.White)
+            .padding(32.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = texto,
+            fontSize = 32.sp,
+            fontFamily = garamondFamily,
+            fontWeight = FontWeight.ExtraBold,
+            color = Color.Black,
+            textAlign = TextAlign.Center
+        )
+    }
+}
+
+fun capturarBitmapDesdeView(view: View): Bitmap {
+    return view.drawToBitmap(Bitmap.Config.ARGB_8888)
+}
+
+fun compartirImagen(context: Context, bitmap: Bitmap) {
+    val file = File(context.cacheDir, "frase.png")
+    file.outputStream().use {
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
+    }
+
+    val uri = FileProvider.getUriForFile(
+        context,
+        "${context.packageName}.provider",
+        file
+    )
+
     val intent = Intent(Intent.ACTION_SEND).apply {
-        type = "text/plain"
-        putExtra(Intent.EXTRA_TEXT, texto)
+        type = "image/png"
+        putExtra(Intent.EXTRA_STREAM, uri)
+        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
     }
 
     context.startActivity(
         Intent.createChooser(intent, "Compartir frase")
     )
 }
+
+
 
 
 @Preview(showBackground = true, apiLevel = 34)
