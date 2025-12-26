@@ -1,0 +1,64 @@
+package com.sharkzapps.datatrove.pantallas
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.sharkzapps.datatrove.ui.theme.garamondFamily
+
+@Composable
+fun PantallaIdiomas(navController:NavController){
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .background(
+            brush = Brush.verticalGradient(
+                colors = listOf(
+                    Color(0xFFFFF8E7),
+                    Color(0xFFF1E4C3)
+                )
+            )
+        )){
+        Column(modifier = Modifier
+            .fillMaxSize()
+            .padding(14.dp, 8.dp)) {
+
+            Encabezado(navController = navController, onMenuClick = {})
+            Spacer(modifier = Modifier.height(5.dp))
+            Text(
+                text = "Idiomas \uD83C\uDF0D",
+                fontSize = 35.sp,
+                style = TextStyle(fontFamily = garamondFamily, fontWeight = FontWeight.Black)
+            )
+
+            HorizontalDivider(modifier = Modifier
+                .height(5.dp)
+                .width(230.dp)
+                .align(Alignment.Start),
+                thickness = 3.5.dp, color = Color.Black)
+        }
+    }
+}
+
+@Preview(showBackground = true, apiLevel = 34)
+@Composable
+fun PreviewPantallaIdiomas(){
+    PantallaIdiomas(navController = rememberNavController())
+}

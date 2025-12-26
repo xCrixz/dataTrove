@@ -139,9 +139,6 @@ fun Opciones(navController: NavController){
     Text(text = "Principal", fontSize = 22.sp, style = TextStyle(fontFamily = garamondFamily,
         fontWeight = FontWeight.ExtraBold), modifier = Modifier.clickable { navController.navigate("principal") })
     Spacer(modifier = Modifier.size(14.dp))
-    Text(text = "Notificaciones", fontSize = 22.sp, style = TextStyle(fontFamily = garamondFamily,
-        fontWeight = FontWeight.ExtraBold), modifier = Modifier.clickable {  })
-    Spacer(modifier = Modifier.size(14.dp))
     Text(text = "Favoritos", fontSize = 22.sp, style = TextStyle(fontFamily = garamondFamily,
         fontWeight = FontWeight.ExtraBold), modifier = Modifier.clickable { navController.navigate("favoritos") })
     Spacer(modifier = Modifier.size(14.dp))
