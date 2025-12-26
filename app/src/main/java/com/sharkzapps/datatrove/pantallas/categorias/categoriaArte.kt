@@ -1,5 +1,6 @@
 package com.sharkzapps.datatrove.pantallas.categorias
 
+import android.graphics.Bitmap
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,12 +15,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -43,6 +46,9 @@ fun CategoriaArte(navController: NavController? = null,
 
     val textoActual = datosArte[index]
     val esFavorito = state.esFavorito(textoActual)
+
+    val context = LocalContext.current
+    var bitmapParaCompartir by remember { mutableStateOf<Bitmap?>(null) }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -55,6 +61,10 @@ fun CategoriaArte(navController: NavController? = null,
                 )
             )
     ) {
+        FraseCapturableInvisible(
+            texto = textoActual,
+            onBitmapReady = { bitmapParaCompartir = it }
+        )
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -102,7 +112,9 @@ fun CategoriaArte(navController: NavController? = null,
                 onSiguienteClick = {direccion = 1
                     index = datosArte.indices.random()},
                 onFavoritoClick = {state.cambiarFavorito(textoActual)},
-                onCompartirClick = {},
+                onCompartirClick = { bitmapParaCompartir?.let {
+                    compartirImagen(context, it)
+                } },
                 esFavorito = esFavorito)
             
         }

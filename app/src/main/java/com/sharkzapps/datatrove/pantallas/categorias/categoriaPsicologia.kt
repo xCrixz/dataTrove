@@ -1,5 +1,6 @@
 package com.sharkzapps.datatrove.pantallas.categorias
 
+import android.graphics.Bitmap
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,8 +26,10 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
 import com.sharkzapps.datatrove.pantallas.Encabezado
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -45,6 +48,9 @@ fun CategoriaPsicologia(navController: NavController? = null,
     val textoActual = datosPsicologia[index]
     val esFavorito = state.esFavorito(textoActual)
 
+    val context = LocalContext.current
+    var bitmapParaCompartir by remember { mutableStateOf<Bitmap?>(null) }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -57,6 +63,10 @@ fun CategoriaPsicologia(navController: NavController? = null,
                 )
             )
     ) {
+        FraseCapturableInvisible(
+            texto = textoActual,
+            onBitmapReady = { bitmapParaCompartir = it }
+        )
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -101,7 +111,9 @@ fun CategoriaPsicologia(navController: NavController? = null,
                 onSiguienteClick = {direccion = 1
                     index = datosPsicologia.indices.random()},
                 onFavoritoClick = {state.cambiarFavorito(textoActual)},
-                onCompartirClick = {},
+                onCompartirClick = { bitmapParaCompartir?.let {
+                    compartirImagen(context, it)
+                } },
                 esFavorito = esFavorito)
         }
     }
