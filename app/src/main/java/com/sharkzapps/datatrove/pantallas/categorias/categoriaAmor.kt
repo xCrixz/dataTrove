@@ -11,6 +11,7 @@ import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -24,7 +25,9 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
@@ -251,17 +254,20 @@ fun FraseCapturableInvisible(
             ComposeView(context).apply {
                 setContent {
                     Box(
-                        modifier = Modifier
-                            .wrapContentSize()
-                            .background(Color.White)
-                            .padding(24.dp)
+                        modifier = Modifier.width(320.dp).wrapContentHeight()
+                            .background(color = Color(0xFFFFF8E7),
+                                shape = RoundedCornerShape(16.dp)
+                            ).border(width = 2.dp, color = Color.Black,
+                                shape = RoundedCornerShape(16.dp)
+                            ).padding(24.dp)
+
                     ) {
                         Text(
                             text = texto,
                             fontSize = 28.sp,
                             fontFamily = garamondFamily,
                             fontWeight = FontWeight.ExtraBold,
-                            color = Color.Black,
+                            color = Color(0xFF2B2B2B),
                             textAlign = TextAlign.Center
                         )
                     }
@@ -269,7 +275,7 @@ fun FraseCapturableInvisible(
             }
         },
         modifier = Modifier
-            .offset(x = (-10000).dp) // 👈 fuera de pantalla
+            .offset(x = (-10000).dp)
             .wrapContentSize(),
         update = { view ->
             view.post {
